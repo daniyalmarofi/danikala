@@ -10,23 +10,29 @@ struct user
     int deposit;
 };
 
-char *getArgument()
+char *getCommandLine()
 {
-    int size = 1;
     char *str;
     int ch;
+    size_t size = 1;
     size_t len = 0;
-    str = (char *)realloc(NULL, sizeof(char));
-    if (!str)
-        return str;
-    while (EOF != (ch = getchar()) && ch != ' ')
+    str = (char *)realloc(NULL, sizeof(char) * size);
+    if (str == NULL)
+    {
+        printf("Memory Allocation Error!");
+        exit(EXIT_FAILURE);
+    }
+    while (EOF != (ch = getchar()) && ch != '\n')
     {
         str[len++] = ch;
         if (len == size)
         {
             str = (char *)realloc(str, sizeof(char) * (size += 16));
-            if (!str)
-                return str;
+            if (str == NULL)
+            {
+                printf("Memory Allocation Error!");
+                exit(EXIT_FAILURE);
+            }
         }
     }
     str[len++] = '\0';
@@ -36,68 +42,122 @@ char *getArgument()
 
 int main()
 {
+
+    printf("Welcome To DaniKala!");
     int numberOfUsers = 0;
     struct user *users = NULL;
-    char command[20];
+    char *command;
 
-    char *input = NULL;
-    char inchar;
-    int numberOfInput = 0;
-    while ((inchar = getchar()) != '\n')
-    {
-        numberOfInput++;
-        input = (char *)realloc(input, sizeof(char) * numberOfInput);
-        input[numberOfInput - 1] = inchar;
-    }
-    input[numberOfInput] = '\0';
-
-    char*token;
-
-    token = strtok(input, " ");
-
-    while (token != NULL)
-    {
-        printf("%s\n", token);
-
-        token = strtok(NULL, " ");
-    }
+    // token = strtok(NULL, " ");
 
     while (1)
     {
         printf("\nEnter your Command:");
-        int y = scanf("%s", command);
+        char *input = getCommandLine();
+        if (input == NULL)
+        {
+            printf("Memory Allocation Error!");
+            exit(EXIT_FAILURE);
+        }
+        command = strtok(input, " ");
         if (!strcmp(command, "signup"))
         {
-            printf("you are trying to signup...");
-            getchar();
-            char *username = getArgument();
+            char *username = strtok(NULL, " ");
+            if (username == NULL)
+            {
+                printf("Wrong Input! Try again.");
+                continue;
+            }
+            char *password = strtok(NULL, " ");
+            if (password == NULL)
+            {
+                printf("Wrong Input! Try again.");
+                continue;
+            }
+
+            char *userType = strtok(NULL, " ");
+            if (userType == NULL)
+            {
+                printf("Wrong Input! Try again.");
+                continue;
+            }
+
+            if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
+            {
+                printf("Undefined User Type!");
+                continue;
+            }
+
             int usernameExists = 0;
             int i = 0;
-            while (i = numberOfUsers && numberOfUsers > 0)
+            while (i < numberOfUsers && numberOfUsers > 0)
             {
-                if (!strcmp(users[i].username, username))
+                if (!strcmp(users[i].username, username) && !strcmp(users[i].userType, userType))
                 {
                     usernameExists = 1;
                     printf("this username is taken. Please try another.");
-                    // clear Buffer
-                    while (getchar() != '\n')
-                        ;
-                    free(username);
+                    free(input);
                     break;
                 }
+                i++;
             }
+
             if (!usernameExists)
             {
+                char *newUsername = (char *)malloc(sizeof(char) * strlen(username));
+                if (newUsername == NULL)
+                {
+                    printf("Memory Allocation Error!");
+                    exit(EXIT_FAILURE);
+                }
+                strcpy(newUsername, username);
+                char *newPassword = (char *)malloc(sizeof(char) * strlen(password));
+                if (newPassword == NULL)
+                {
+                    printf("Memory Allocation Error!");
+                    exit(EXIT_FAILURE);
+                }
+                strcpy(newPassword, password);
+                char *newUserType = (char *)malloc(sizeof(char) * strlen(userType));
+                if (newUserType == NULL)
+                {
+                    printf("Memory Allocation Error!");
+                    exit(EXIT_FAILURE);
+                }
+                strcpy(newUserType, userType);
+
+                free(input);
+
                 numberOfUsers++;
                 users = (struct user *)realloc(users, numberOfUsers * sizeof(struct user));
-                users[numberOfUsers - 1].username = username;
-                users[numberOfUsers - 1].password = getArgument();
+                if (users == NULL)
+                {
+                    printf("Memory Allocation Error!");
+                    exit(EXIT_FAILURE);
+                }
+                users[numberOfUsers - 1].username = newUsername;
+                users[numberOfUsers - 1].password = newPassword;
                 users[numberOfUsers - 1].deposit = 0;
-                users[numberOfUsers - 1].userType = getArgument();
+                users[numberOfUsers - 1].userType = newUserType;
+                printf("user signed up.");
+                continue;
+            }
+            else
+            {
                 continue;
             }
         }
+        else if (!strcmp(command, "exit"))
+        {
+            break;
+        }
+        else
+        {
+            printf("Command Not Found!");
+        }
     }
 
+    // TODO add a for loop to clear all allocated momries
+    free(users);
     return 0;
 }
