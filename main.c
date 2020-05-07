@@ -40,6 +40,28 @@ int main()
     struct user *users = NULL;
     char command[20];
 
+    char *input = NULL;
+    char inchar;
+    int numberOfInput = 0;
+    while ((inchar = getchar()) != '\n')
+    {
+        numberOfInput++;
+        input = (char *)realloc(input, sizeof(char) * numberOfInput);
+        input[numberOfInput - 1] = inchar;
+    }
+    input[numberOfInput] = '\0';
+
+    char*token;
+
+    token = strtok(input, " ");
+
+    while (token != NULL)
+    {
+        printf("%s\n", token);
+
+        token = strtok(NULL, " ");
+    }
+
     while (1)
     {
         printf("\nEnter your Command:");
@@ -67,11 +89,11 @@ int main()
             if (!usernameExists)
             {
                 numberOfUsers++;
-                users=(struct user*)realloc(users,numberOfUsers*sizeof(struct user));
-                users[numberOfUsers-1].username=username;
-                users[numberOfUsers-1].password=getArgument();
-                users[numberOfUsers-1].deposit=0;
-                users[numberOfUsers-1].userType=getArgument();
+                users = (struct user *)realloc(users, numberOfUsers * sizeof(struct user));
+                users[numberOfUsers - 1].username = username;
+                users[numberOfUsers - 1].password = getArgument();
+                users[numberOfUsers - 1].deposit = 0;
+                users[numberOfUsers - 1].userType = getArgument();
                 continue;
             }
         }
