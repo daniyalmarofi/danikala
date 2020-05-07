@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +11,15 @@ struct user
     int deposit;
 };
 
+void checkMalloc(void *pointer)
+{
+    if (pointer == NULL)
+    {
+        printf("Memory Allocation Error!");
+        exit(EXIT_FAILURE);
+    }
+}
+
 char *getCommandLine()
 {
     char *str;
@@ -17,22 +27,14 @@ char *getCommandLine()
     size_t size = 1;
     size_t len = 0;
     str = (char *)realloc(NULL, sizeof(char) * size);
-    if (str == NULL)
-    {
-        printf("Memory Allocation Error!");
-        exit(EXIT_FAILURE);
-    }
+    checkMalloc(str);
     while (EOF != (ch = getchar()) && ch != '\n')
     {
         str[len++] = ch;
         if (len == size)
         {
             str = (char *)realloc(str, sizeof(char) * (size += 16));
-            if (str == NULL)
-            {
-                printf("Memory Allocation Error!");
-                exit(EXIT_FAILURE);
-            }
+            checkMalloc(str);
         }
     }
     str[len++] = '\0';
@@ -54,11 +56,8 @@ int main()
     {
         printf("\nEnter your Command:");
         char *input = getCommandLine();
-        if (input == NULL)
-        {
-            printf("Memory Allocation Error!");
-            exit(EXIT_FAILURE);
-        }
+        checkMalloc(input);
+
         command = strtok(input, " ");
         if (!strcmp(command, "signup"))
         {
@@ -105,36 +104,24 @@ int main()
             if (!usernameExists)
             {
                 char *newUsername = (char *)malloc(sizeof(char) * strlen(username));
-                if (newUsername == NULL)
-                {
-                    printf("Memory Allocation Error!");
-                    exit(EXIT_FAILURE);
-                }
+                checkMalloc(newUsername);
+
                 strcpy(newUsername, username);
                 char *newPassword = (char *)malloc(sizeof(char) * strlen(password));
-                if (newPassword == NULL)
-                {
-                    printf("Memory Allocation Error!");
-                    exit(EXIT_FAILURE);
-                }
+                checkMalloc(newPassword);
+
                 strcpy(newPassword, password);
                 char *newUserType = (char *)malloc(sizeof(char) * strlen(userType));
-                if (newUserType == NULL)
-                {
-                    printf("Memory Allocation Error!");
-                    exit(EXIT_FAILURE);
-                }
+                checkMalloc(newUserType);
+
                 strcpy(newUserType, userType);
 
                 free(input);
 
                 numberOfUsers++;
                 users = (struct user *)realloc(users, numberOfUsers * sizeof(struct user));
-                if (users == NULL)
-                {
-                    printf("Memory Allocation Error!");
-                    exit(EXIT_FAILURE);
-                }
+                checkMalloc(users);
+
                 users[numberOfUsers - 1].username = newUsername;
                 users[numberOfUsers - 1].password = newPassword;
                 users[numberOfUsers - 1].deposit = 0;
