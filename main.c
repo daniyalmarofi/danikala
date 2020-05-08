@@ -11,6 +11,14 @@ struct user
     int deposit;
 };
 
+struct good
+{
+    char *sellerUsername;
+    char *goodName;
+    int goodPrice;
+    int goodCount;
+};
+
 void checkMalloc(void *pointer)
 {
     if (pointer == NULL)
@@ -58,9 +66,10 @@ int main()
     printf("Welcome To DaniKala!");
     int numberOfUsers = 0;
     struct user *users = NULL;
+    int numberOfGoods = 0;
+    struct good *goods = NULL;
     char *command;
     int logedinUserId = -1;
-    // token = strtok(NULL, " ");
 
     while (1)
     {
@@ -114,7 +123,7 @@ int main()
                 i++;
             }
 
-            // if newuser does not exists add it to user and free input for next iteration
+            // if newuser does not exists add it to user
             if (!usernameExists)
             {
                 char *newUsername = (char *)malloc(sizeof(char) * strlen(username));
@@ -190,10 +199,13 @@ int main()
             {
                 printf("the login is invalid!");
             }
+            free(input);
         }
         else if (!strcmp(command, "logout") && logedinUserId != -1)
         {
             logedinUserId = -1;
+            printf("user Logged out!");
+            free(input);
         }
         else if (!strcmp(command, "view") && logedinUserId != -1)
         {
@@ -202,6 +214,7 @@ int main()
             printf("userType: %s\t", users[logedinUserId].userType);
             printf("Deposit: %s\t", users[logedinUserId].deposit);
             // TODO add user sells or boughts
+            free(input);
         }
         else if (!strcmp(command, "deposit") && logedinUserId != -1 && !strcmp(users[logedinUserId].userType, "buyer"))
         {
@@ -217,17 +230,84 @@ int main()
             }
             else
                 printf("Wrong input! Try again!");
+
+            free(input);
+        }
+        else if (!strcmp(command, "add_goods") && logedinUserId != -1 && !strcmp(users[logedinUserId].userType, "seller"))
+        {
+            // getting and checking goodName and goodPrice and goodCount from input
+            char *goodName = strtok(NULL, " ");
+            if (checkInput(goodName))
+            {
+                free(input);
+                continue;
+            }
+            char *goodPrice = strtok(NULL, " ");
+            if (checkInput(goodPrice))
+            {
+                free(input);
+                continue;
+            }
+            char *goodCount = strtok(NULL, " ");
+            if (checkInput(goodCount))
+            {
+                free(input);
+                continue;
+            }
+            int goodPriceValue = 0;
+            int goodCountValue = 0;
+            if (!((goodPriceValue = atoi(goodPrice)) > 0) && !((goodCountValue = atoi(goodCount)) > 0))
+            {
+                printf("Wrong Input! Try again!");
+                free(input);
+                continue;
+            }
+
+            // search for the goodName for not existing
+            int goodExists = 0;
+            int i = 0;
+            while (i < numberOfGoods && numberOfGoods > 0)
+            {
+                if (!strcmp(goods[i].goodName, goodName))
+                {
+                    goodExists = 1;
+                    printf("this good Exists is saved. Please try another.");
+                    break;
+                }
+                i++;
+            }
+
+            // if new Good does not exists add it to goods
+            if (!goodExists)
+            {
+                char *newGoodname = (char *)malloc(sizeof(char) * strlen(goodName));
+                checkMalloc(newGoodname);
+                strcpy(newGoodname, goodName);
+
+                free(input);
+
+                numberOfGoods++;
+                goods = (struct good *)realloc(goods, numberOfGoods * sizeof(struct good));
+                checkMalloc(goods);
+
+                goods[numberOfGoods - 1].sellerUsername = users[logedinUserId].username;
+                goods[numberOfGoods - 1].goodName = newGoodname;
+                goods[numberOfGoods - 1].goodPrice = goodPriceValue;
+                goods[numberOfGoods - 1].goodCount = goodCountValue;
+
+                printf("Good Successfully added.");
+            }
         }
         else if (!strcmp(command, "exit"))
         {
             break;
+            free(input);
         }
         else
         {
             printf("Command Not Found!");
+            free(input);
         }
-
-        free(input);
     }
 
     // TODO add a for loop to clear all allocated momries
