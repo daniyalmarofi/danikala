@@ -13,7 +13,7 @@ struct user
 
 struct good
 {
-    char *sellerUsername;
+    int sellerId;
     char *goodName;
     int goodPrice;
     int goodCount;
@@ -70,6 +70,8 @@ int main()
     struct good *goods = NULL;
     char *command;
     int loggedinUserId = -1;
+    int buyerBasketCount = 0;
+    int *buyerBasket = NULL;
 
     while (1)
     {
@@ -290,7 +292,7 @@ int main()
                 goods = (struct good *)realloc(goods, numberOfGoods * sizeof(struct good));
                 checkMalloc(goods);
 
-                goods[numberOfGoods - 1].sellerUsername = users[loggedinUserId].username;
+                goods[numberOfGoods - 1].sellerId = loggedinUserId;
                 goods[numberOfGoods - 1].goodName = newGoodname;
                 goods[numberOfGoods - 1].goodPrice = goodPriceValue;
                 goods[numberOfGoods - 1].goodCount = goodCountValue;
@@ -299,7 +301,7 @@ int main()
             }
             else
             {
-                if (!strcmp(goods[goodExists].sellerUsername, users[loggedinUserId].username))
+                if (!strcmp(users[goods[goodExists].sellerId].username, users[loggedinUserId].username))
                 {
                     goods[goodExists].goodCount = goodCountValue;
                     printf("goodCount changed!");
@@ -316,12 +318,15 @@ int main()
             for (int i = 0; i < numberOfGoods; i++)
             {
                 printf("----\n");
-                printf("Seller Username:\t%s\n", goods[i].sellerUsername);
+                printf("Seller Username:\t%s\n", users[goods[i].sellerId].username);
                 printf("Good Name:\t%s\n", goods[i].goodName);
                 printf("Good Price:\t%d\n", goods[i].goodPrice);
                 printf("Good Count:\t%d\n", goods[i].goodCount);
             }
             free(input);
+        }
+        else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer")){
+            // doing something!
         }
         else if (!strcmp(command, "exit"))
         {
