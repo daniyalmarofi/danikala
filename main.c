@@ -70,6 +70,7 @@ int main()
         checkMalloc(input);
         command = strtok(input, " ");
 
+        // TODO add exception: signup sdkjfhs skjdfhsjkd skdjhfjskd sjdkhfsjf skjdhfkjsdf(more than expected arguments) to all commands
         if (!strcmp(command, "signup") && logedinUserId == -1)
         {
             // getting and checking username and password and usertype from input
@@ -177,6 +178,13 @@ int main()
         }
         else if(!strcmp(command, "logout") && logedinUserId != -1){
             logedinUserId = -1;
+        }
+        else if(!strcmp(command, "view") && logedinUserId != -1){
+            printf("Displaying user Information:\n");
+            printf("username: %s\t",users[logedinUserId].username);
+            printf("userType: %s\t",users[logedinUserId].userType);
+            printf("Deposit: %s\t",users[logedinUserId].deposit);
+            // TODO add user sells or boughts
         }
         else if (!strcmp(command, "exit"))
         {
