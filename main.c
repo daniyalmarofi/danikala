@@ -67,6 +67,160 @@ char *getCommandLine()
     return (char *)realloc(str, sizeof(char) * len);
 }
 
+void doSignup(char *input, int *numberOfUsers, struct user **users)
+{
+    // getting and checking username and password and usertype from input
+    char *username = strtok(NULL, " ");
+    if (checkInput(username))
+    {
+        free(input);
+        return;
+    }
+    char *password = strtok(NULL, " ");
+    if (checkInput(password))
+    {
+        free(input);
+        return;
+    }
+    char *userType = strtok(NULL, " ");
+    if (checkInput(userType))
+    {
+        free(input);
+        return;
+    }
+
+    if (strtok(NULL, " ") != NULL)
+    {
+        printf("too much input arguments!");
+        free(input);
+        return;
+    }
+
+    if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
+    {
+        printf("Undefined User Type!");
+        free(input);
+        return;
+    }
+
+    // search for the username and usertype for not existing
+    int usernameExists = 0;
+    int i = 0;
+    while (i < *numberOfUsers && *numberOfUsers > 0)
+    {
+        if (!strcmp((*users)[i].username, username) && !strcmp((*users)[i].userType, userType))
+        {
+            usernameExists = 1;
+            printf("this username is taken. Please try another.");
+            break;
+        }
+        i++;
+    }
+
+    // if newuser does not exists add it to user
+    if (!usernameExists)
+    {
+        char *newUsername = (char *)malloc(sizeof(char) * strlen(username));
+        checkMalloc(newUsername);
+        strcpy(newUsername, username);
+
+        char *newPassword = (char *)malloc(sizeof(char) * strlen(password));
+        checkMalloc(newPassword);
+        strcpy(newPassword, password);
+
+        char *newUserType = (char *)malloc(sizeof(char) * strlen(userType));
+        checkMalloc(newUserType);
+        strcpy(newUserType, userType);
+
+        free(input);
+
+        (*numberOfUsers)++;
+        (*users) = (struct user *)realloc((*users), *numberOfUsers * sizeof(struct user));
+        checkMalloc((*users));
+
+        (*users)[*numberOfUsers - 1].username = newUsername;
+        (*users)[*numberOfUsers - 1].password = newPassword;
+        (*users)[*numberOfUsers - 1].deposit = 0;
+        (*users)[*numberOfUsers - 1].userType = newUserType;
+        printf("user signed up.");
+    }
+    return;
+}
+
+void doLogin(char *input, int numberOfUsers, struct user *users, int *loggedinUserId)
+{
+
+    // getting and checking username and password and usertype from input
+    char *username = strtok(NULL, " ");
+    if (checkInput(username))
+    {
+        free(input);
+        return;
+    }
+
+    char *password = strtok(NULL, " ");
+    if (checkInput(password))
+    {
+        free(input);
+        return;
+    }
+
+    char *userType = strtok(NULL, " ");
+    if (checkInput(userType))
+    {
+        free(input);
+        return;
+    }
+
+    if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
+    {
+        printf("Undefined User Type!");
+        free(input);
+        return;
+    }
+
+    if (strtok(NULL, " ") != NULL)
+    {
+        printf("too much input arguments!");
+        free(input);
+        return;
+    }
+
+    // checking if user exists based on username and password and usertype
+    int i = 0;
+    while (i < numberOfUsers && numberOfUsers > 0)
+    {
+        if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
+        {
+            *loggedinUserId = i;
+            printf("%s! Welcome to your dashboard!", users[i].username);
+            break;
+        }
+        i++;
+    }
+
+    if (*loggedinUserId == -1)
+    {
+        printf("the login is invalid!");
+    }
+    free(input);
+    return;
+}
+
+void doLogout(char *input, int *loggedinUserId)
+{
+    if (strtok(NULL, " ") != NULL)
+    {
+        printf("too much input arguments!");
+        free(input);
+        return;
+    }
+
+    *loggedinUserId = -1;
+    printf("user Logged out!");
+    free(input);
+}
+
 int main()
 {
 
@@ -90,155 +244,19 @@ int main()
 
         if (!strcmp(command, "signup") && loggedinUserId == -1)
         {
-            // getting and checking username and password and usertype from input
-            char *username = strtok(NULL, " ");
-            if (checkInput(username))
-            {
-                free(input);
-                continue;
-            }
-            char *password = strtok(NULL, " ");
-            if (checkInput(password))
-            {
-                free(input);
-                continue;
-            }
-            char *userType = strtok(NULL, " ");
-            if (checkInput(password))
-            {
-                free(input);
-                continue;
-            }
-
-            if (!checkInput(strtok(NULL, " ")))
-            {
-                printf("too much input arguments!");
-                free(input);
-                continue;
-            }
-
-            if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
-            {
-                printf("Undefined User Type!");
-                free(input);
-                continue;
-            }
-
-            // search for the username and usertype for not existing
-            int usernameExists = 0;
-            int i = 0;
-            while (i < numberOfUsers && numberOfUsers > 0)
-            {
-                if (!strcmp(users[i].username, username) && !strcmp(users[i].userType, userType))
-                {
-                    usernameExists = 1;
-                    printf("this username is taken. Please try another.");
-                    break;
-                }
-                i++;
-            }
-
-            // if newuser does not exists add it to user
-            if (!usernameExists)
-            {
-                char *newUsername = (char *)malloc(sizeof(char) * strlen(username));
-                checkMalloc(newUsername);
-                strcpy(newUsername, username);
-
-                char *newPassword = (char *)malloc(sizeof(char) * strlen(password));
-                checkMalloc(newPassword);
-                strcpy(newPassword, password);
-
-                char *newUserType = (char *)malloc(sizeof(char) * strlen(userType));
-                checkMalloc(newUserType);
-                strcpy(newUserType, userType);
-
-                free(input);
-
-                numberOfUsers++;
-                users = (struct user *)realloc(users, numberOfUsers * sizeof(struct user));
-                checkMalloc(users);
-
-                users[numberOfUsers - 1].username = newUsername;
-                users[numberOfUsers - 1].password = newPassword;
-                users[numberOfUsers - 1].deposit = 0;
-                users[numberOfUsers - 1].userType = newUserType;
-                printf("user signed up.");
-            }
+            doSignup(input, &numberOfUsers, &users);
         }
         else if (!strcmp(command, "login") && loggedinUserId == -1)
         {
-            // getting and checking username and password and usertype from input
-            char *username = strtok(NULL, " ");
-            if (checkInput(username))
-            {
-                free(input);
-                continue;
-            }
-
-            char *password = strtok(NULL, " ");
-            if (checkInput(password))
-            {
-                free(input);
-                continue;
-            }
-
-            char *userType = strtok(NULL, " ");
-            if (checkInput(userType))
-            {
-                free(input);
-                continue;
-            }
-
-            if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
-            {
-                printf("Undefined User Type!");
-                free(input);
-                continue;
-            }
-
-            if (!checkInput(strtok(NULL, " ")))
-            {
-                printf("too much input arguments!");
-                free(input);
-                continue;
-            }
-
-            // checking if user exists based on username and password and usertype
-            int i = 0;
-            while (i < numberOfUsers && numberOfUsers > 0)
-            {
-                if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
-                {
-                    loggedinUserId = i;
-                    printf("%s! Welcome to your dashboard!", users[i].username);
-                    break;
-                }
-                i++;
-            }
-
-            if (loggedinUserId == -1)
-            {
-                printf("the login is invalid!");
-            }
-            free(input);
+            doLogin(input, numberOfUsers, users, &loggedinUserId);
         }
         else if (!strcmp(command, "logout") && loggedinUserId != -1)
         {
-            if (!checkInput(strtok(NULL, " ")))
-            {
-                printf("too much input arguments!");
-                free(input);
-                continue;
-            }
-
-            loggedinUserId = -1;
-            printf("user Logged out!");
-            free(input);
+            doLogout(input, &loggedinUserId);
         }
         else if (!strcmp(command, "view") && loggedinUserId != -1)
         {
-            if (!checkInput(strtok(NULL, " ")))
+            if (strtok(NULL, " ") != NULL)
             {
                 printf("too much input arguments!");
                 free(input);
@@ -294,7 +312,7 @@ int main()
         }
         else if (!strcmp(command, "deposit") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         {
-            if (!checkInput(strtok(NULL, " ")))
+            if (strtok(NULL, " ") != NULL)
             {
                 printf("too much input arguments!");
                 free(input);
@@ -317,13 +335,13 @@ int main()
         }
         else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         {
-            if (!checkInput(strtok(NULL, " ")))
+            if (strtok(NULL, " ") != NULL)
             {
                 printf("too much input arguments!");
                 free(input);
                 continue;
             }
-            
+
             // getting and checking goodName and goodPrice and goodCount from input
             char *sellerUsername = strtok(NULL, " ");
             if (checkInput(sellerUsername))
@@ -414,7 +432,7 @@ int main()
         }
         else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         {
-            if (!checkInput(strtok(NULL, " ")))
+            if (strtok(NULL, " ") != NULL)
             {
                 printf("too much input arguments!");
                 free(input);
@@ -434,7 +452,7 @@ int main()
         }
         else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         {
-            if (!checkInput(strtok(NULL, " ")))
+            if (strtok(NULL, " ") != NULL)
             {
                 printf("too much input arguments!");
                 free(input);
@@ -521,13 +539,13 @@ int main()
         }
         else if (!strcmp(command, "exit"))
         {
-            if (!checkInput(strtok(NULL, " ")))
+            if (strtok(NULL, " ") != NULL)
             {
                 printf("too much input arguments!");
                 free(input);
                 continue;
             }
-            
+
             break;
             free(input);
         }
