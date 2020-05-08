@@ -69,7 +69,7 @@ int main()
     int numberOfGoods = 0;
     struct good *goods = NULL;
     char *command;
-    int logedinUserId = -1;
+    int loggedinUserId = -1;
 
     while (1)
     {
@@ -80,7 +80,7 @@ int main()
         command = strtok(input, " ");
 
         // TODO add exception: signup sdkjfhs skjdfhsjkd skdjhfjskd sjdkhfsjf skjdhfkjsdf(more than expected arguments) to all commands
-        if (!strcmp(command, "signup") && logedinUserId == -1)
+        if (!strcmp(command, "signup") && loggedinUserId == -1)
         {
             // getting and checking username and password and usertype from input
             char *username = strtok(NULL, " ");
@@ -151,7 +151,7 @@ int main()
                 printf("user signed up.");
             }
         }
-        else if (!strcmp(command, "login") && logedinUserId == -1)
+        else if (!strcmp(command, "login") && loggedinUserId == -1)
         {
             // getting and checking username and password and usertype from input
             char *username = strtok(NULL, " ");
@@ -188,35 +188,35 @@ int main()
             {
                 if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
                 {
-                    logedinUserId = i;
+                    loggedinUserId = i;
                     printf("%s! Welcome to your dashboard!", users[i].username);
                     break;
                 }
                 i++;
             }
 
-            if (logedinUserId == -1)
+            if (loggedinUserId == -1)
             {
                 printf("the login is invalid!");
             }
             free(input);
         }
-        else if (!strcmp(command, "logout") && logedinUserId != -1)
+        else if (!strcmp(command, "logout") && loggedinUserId != -1)
         {
-            logedinUserId = -1;
+            loggedinUserId = -1;
             printf("user Logged out!");
             free(input);
         }
-        else if (!strcmp(command, "view") && logedinUserId != -1)
+        else if (!strcmp(command, "view") && loggedinUserId != -1)
         {
             printf("Displaying user Information:\n");
-            printf("username: %s\t", users[logedinUserId].username);
-            printf("userType: %s\t", users[logedinUserId].userType);
-            printf("Deposit: %s\t", users[logedinUserId].deposit);
+            printf("username: %s\t", users[loggedinUserId].username);
+            printf("userType: %s\t", users[loggedinUserId].userType);
+            printf("Deposit: %s\t", users[loggedinUserId].deposit);
             // TODO add user sells or boughts
             free(input);
         }
-        else if (!strcmp(command, "deposit") && logedinUserId != -1 && !strcmp(users[logedinUserId].userType, "buyer"))
+        else if (!strcmp(command, "deposit") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         {
             // get the deposit value and convert it to integer and add it to user deposit
             char *deposit = strtok(NULL, " ");
@@ -225,15 +225,15 @@ int main()
                 continue;
             if ((depositvalue = atoi(deposit)) > 0)
             {
-                users[logedinUserId].deposit += depositvalue;
-                printf("%d successfuly added to your deposit.\nNow your deposit is %d.", depositvalue, users[logedinUserId].deposit);
+                users[loggedinUserId].deposit += depositvalue;
+                printf("%d successfuly added to your deposit.\nNow your deposit is %d.", depositvalue, users[loggedinUserId].deposit);
             }
             else
                 printf("Wrong input! Try again!");
 
             free(input);
         }
-        else if (!strcmp(command, "add_goods") && logedinUserId != -1 && !strcmp(users[logedinUserId].userType, "seller"))
+        else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         {
             // getting and checking goodName and goodPrice and goodCount from input
             char *goodName = strtok(NULL, " ");
@@ -264,14 +264,14 @@ int main()
             }
 
             // search for the goodName for not existing
+            // if good exists I'd assign the id of that good to goodExists Variable
             int goodExists = 0;
             int i = 0;
             while (i < numberOfGoods && numberOfGoods > 0)
             {
                 if (!strcmp(goods[i].goodName, goodName))
                 {
-                    goodExists = 1;
-                    printf("this good Exists is saved. Please try another.");
+                    goodExists = i;
                     break;
                 }
                 i++;
@@ -290,15 +290,27 @@ int main()
                 goods = (struct good *)realloc(goods, numberOfGoods * sizeof(struct good));
                 checkMalloc(goods);
 
-                goods[numberOfGoods - 1].sellerUsername = users[logedinUserId].username;
+                goods[numberOfGoods - 1].sellerUsername = users[loggedinUserId].username;
                 goods[numberOfGoods - 1].goodName = newGoodname;
                 goods[numberOfGoods - 1].goodPrice = goodPriceValue;
                 goods[numberOfGoods - 1].goodCount = goodCountValue;
 
                 printf("Good Successfully added.");
             }
+            else
+            {
+                if (!strcmp(goods[goodExists].sellerUsername, users[loggedinUserId].username))
+                {
+                    goods[goodExists].goodCount = goodCountValue;
+                    printf("goodCount changed!");
+                }
+                else
+                    printf("you are not the seller of this good!");
+
+                free(input);
+            }
         }
-        else if (!strcmp(command, "show_goods") && logedinUserId != -1)
+        else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         {
             printf("Showing all goods of DaniKala!\n");
             for (int i = 0; i < numberOfGoods; i++)
