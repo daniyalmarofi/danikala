@@ -88,7 +88,6 @@ int main()
         checkMalloc(input);
         command = strtok(input, " ");
 
-        // TODO add exception: signup sdkjfhs skjdfhsjkd skdjhfjskd sjdkhfsjf skjdhfkjsdf(more than expected arguments) to all commands
         if (!strcmp(command, "signup") && loggedinUserId == -1)
         {
             // getting and checking username and password and usertype from input
@@ -107,6 +106,13 @@ int main()
             char *userType = strtok(NULL, " ");
             if (checkInput(password))
             {
+                free(input);
+                continue;
+            }
+
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
                 free(input);
                 continue;
             }
@@ -191,6 +197,13 @@ int main()
                 continue;
             }
 
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
+
             // checking if user exists based on username and password and usertype
             int i = 0;
             while (i < numberOfUsers && numberOfUsers > 0)
@@ -212,12 +225,26 @@ int main()
         }
         else if (!strcmp(command, "logout") && loggedinUserId != -1)
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
+
             loggedinUserId = -1;
             printf("user Logged out!");
             free(input);
         }
         else if (!strcmp(command, "view") && loggedinUserId != -1)
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
+
             printf("Displaying user Information:\n");
             printf("username: %s\t", users[loggedinUserId].username);
             printf("userType: %s\t", users[loggedinUserId].userType);
@@ -267,6 +294,12 @@ int main()
         }
         else if (!strcmp(command, "deposit") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
             // get the deposit value and convert it to integer and add it to user deposit
             char *deposit = strtok(NULL, " ");
             int depositvalue = 0;
@@ -284,6 +317,13 @@ int main()
         }
         else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
+            
             // getting and checking goodName and goodPrice and goodCount from input
             char *sellerUsername = strtok(NULL, " ");
             if (checkInput(sellerUsername))
@@ -374,6 +414,13 @@ int main()
         }
         else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
+
             printf("Showing all goods of DaniKala!\n");
             for (int i = 0; i < numberOfGoods; i++)
             {
@@ -387,6 +434,12 @@ int main()
         }
         else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
 
             // getting and checking goodName and goodPrice and goodCount from input
             char *goodName = strtok(NULL, " ");
@@ -468,6 +521,13 @@ int main()
         }
         else if (!strcmp(command, "exit"))
         {
+            if (!checkInput(strtok(NULL, " ")))
+            {
+                printf("too much input arguments!");
+                free(input);
+                continue;
+            }
+            
             break;
             free(input);
         }
