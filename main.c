@@ -298,6 +298,19 @@ int main()
                 printf("Good Successfully added.");
             }
         }
+        else if (!strcmp(command, "show_goods") && logedinUserId != -1)
+        {
+            printf("Showing all goods of DaniKala!\n");
+            for (int i = 0; i < numberOfGoods; i++)
+            {
+                printf("----\n");
+                printf("Seller Username:\t%s\n", goods[i].sellerUsername);
+                printf("Good Name:\t%s\n", goods[i].goodName);
+                printf("Good Price:\t%d\n", goods[i].goodPrice);
+                printf("Good Count:\t%d\n", goods[i].goodCount);
+            }
+            free(input);
+        }
         else if (!strcmp(command, "exit"))
         {
             break;
