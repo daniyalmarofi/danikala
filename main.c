@@ -76,17 +76,27 @@ int main()
             // getting and checking username and password and usertype from input
             char *username = strtok(NULL, " ");
             if (checkInput(username))
+            {
+                free(input);
                 continue;
+            }
             char *password = strtok(NULL, " ");
             if (checkInput(password))
+            {
+                free(input);
                 continue;
+            }
             char *userType = strtok(NULL, " ");
             if (checkInput(password))
+            {
+                free(input);
                 continue;
+            }
 
             if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
             {
                 printf("Undefined User Type!");
+                free(input);
                 continue;
             }
 
@@ -99,7 +109,6 @@ int main()
                 {
                     usernameExists = 1;
                     printf("this username is taken. Please try another.");
-                    free(input);
                     break;
                 }
                 i++;
@@ -131,29 +140,36 @@ int main()
                 users[numberOfUsers - 1].deposit = 0;
                 users[numberOfUsers - 1].userType = newUserType;
                 printf("user signed up.");
-                continue;
             }
-            else
-                continue;
         }
         else if (!strcmp(command, "login") && logedinUserId == -1)
         {
             // getting and checking username and password and usertype from input
             char *username = strtok(NULL, " ");
             if (checkInput(username))
+            {
+                free(input);
                 continue;
+            }
 
             char *password = strtok(NULL, " ");
             if (checkInput(password))
+            {
+                free(input);
                 continue;
+            }
 
             char *userType = strtok(NULL, " ");
             if (checkInput(userType))
+            {
+                free(input);
                 continue;
+            }
 
             if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
             {
                 printf("Undefined User Type!");
+                free(input);
                 continue;
             }
 
@@ -174,12 +190,10 @@ int main()
             {
                 printf("the login is invalid!");
             }
-            free(input);
         }
         else if (!strcmp(command, "logout") && logedinUserId != -1)
         {
             logedinUserId = -1;
-            free(input);
         }
         else if (!strcmp(command, "view") && logedinUserId != -1)
         {
@@ -188,7 +202,6 @@ int main()
             printf("userType: %s\t", users[logedinUserId].userType);
             printf("Deposit: %s\t", users[logedinUserId].deposit);
             // TODO add user sells or boughts
-            free(input);
         }
         else if (!strcmp(command, "deposit") && logedinUserId != -1 && !strcmp(users[logedinUserId].userType, "buyer"))
         {
@@ -200,23 +213,21 @@ int main()
             if ((depositvalue = atoi(deposit)) != 0)
             {
                 users[logedinUserId].deposit += depositvalue;
-                printf("%d successfuly added to your deposit.\nNow your deposit is %d.",depositvalue,users[logedinUserId].deposit);
+                printf("%d successfuly added to your deposit.\nNow your deposit is %d.", depositvalue, users[logedinUserId].deposit);
             }
             else
                 printf("Wrong input! Try again!");
-
-            free(input);
         }
         else if (!strcmp(command, "exit"))
         {
-            free(input);
             break;
         }
         else
         {
             printf("Command Not Found!");
-            free(input);
         }
+
+        free(input);
     }
 
     // TODO add a for loop to clear all allocated momries
