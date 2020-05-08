@@ -64,20 +64,21 @@ int main()
 
     while (1)
     {
+        // gettng input from user and checking for the entered command
         printf("\nEnter your Command:");
         char *input = getCommandLine();
         checkMalloc(input);
-
         command = strtok(input, " ");
-        if (!strcmp(command, "signup"))
+
+        if (!strcmp(command, "signup") && logedinUserId == -1)
         {
+            // getting and checking username and password and usertype from input
             char *username = strtok(NULL, " ");
             if (checkInput(username))
                 continue;
             char *password = strtok(NULL, " ");
             if (checkInput(password))
                 continue;
-
             char *userType = strtok(NULL, " ");
             if (checkInput(password))
                 continue;
@@ -88,6 +89,7 @@ int main()
                 continue;
             }
 
+            // search for the username and usertype for not existing
             int usernameExists = 0;
             int i = 0;
             while (i < numberOfUsers && numberOfUsers > 0)
@@ -102,19 +104,19 @@ int main()
                 i++;
             }
 
+            // if newuser does not exists add it to user and free input for next iteration
             if (!usernameExists)
             {
                 char *newUsername = (char *)malloc(sizeof(char) * strlen(username));
                 checkMalloc(newUsername);
-
                 strcpy(newUsername, username);
+
                 char *newPassword = (char *)malloc(sizeof(char) * strlen(password));
                 checkMalloc(newPassword);
-
                 strcpy(newPassword, password);
+
                 char *newUserType = (char *)malloc(sizeof(char) * strlen(userType));
                 checkMalloc(newUserType);
-
                 strcpy(newUserType, userType);
 
                 free(input);
@@ -131,17 +133,16 @@ int main()
                 continue;
             }
             else
-            {
                 continue;
-            }
         }
-        else if (!strcmp(command, "login"))
+        else if (!strcmp(command, "login") && logedinUserId == -1)
         {
+            // getting and checking username and password and usertype from input
             char *username = strtok(NULL, " ");
             if (checkInput(username))
                 continue;
+
             char *password = strtok(NULL, " ");
-            if (password == NULL)
             if (checkInput(password))
                 continue;
 
@@ -155,20 +156,20 @@ int main()
                 continue;
             }
 
-            int userExists = 0;
+            // checking if user exists based on username and password and usertype
             int i = 0;
             while (i < numberOfUsers && numberOfUsers > 0)
             {
                 if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
                 {
-                    userExists = 1;
-                    printf("Welcome to your dashboard!");
+                    logedinUserId = i;
+                    printf("%s! Welcome to your dashboard!",users[i].username);
                     break;
                 }
                 i++;
             }
 
-            if (!userExists)
+            if (logedinUserId == -1)
             {
                 printf("the login is invalid!");
             }
