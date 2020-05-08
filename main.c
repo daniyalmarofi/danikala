@@ -210,7 +210,7 @@ int main()
             int depositvalue = 0;
             if (checkInput(deposit))
                 continue;
-            if ((depositvalue = atoi(deposit)) != 0)
+            if ((depositvalue = atoi(deposit)) > 0)
             {
                 users[logedinUserId].deposit += depositvalue;
                 printf("%d successfuly added to your deposit.\nNow your deposit is %d.", depositvalue, users[logedinUserId].deposit);
