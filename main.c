@@ -360,7 +360,7 @@ void doAddGoods(char *input, struct user *users, int loggedinUserId, struct good
     // if good exists I'd assign the id of that good to goodExists Variable
     int goodExists = -1;
     int i = 0;
-    while (i < *numberOfGoods && *numberOfGoods > 0)
+    while (i<*numberOfGoods && * numberOfGoods> 0)
     {
         if (!strcmp((*goods)[i].goodName, goodName))
         {
@@ -404,9 +404,130 @@ void doAddGoods(char *input, struct user *users, int loggedinUserId, struct good
     }
 }
 
-int main()
+void doShowGoods(char *input, struct good *goods, int numberOfGoods, struct user *users)
 {
 
+    if (strtok(NULL, " ") != NULL)
+    {
+        printf("too much input arguments!");
+        free(input);
+        return;
+    }
+
+    printf("Showing all goods of DaniKala!\n");
+    for (int i = 0; i < numberOfGoods; i++)
+    {
+        printf("----\n");
+        printf("Seller Username:\t%s\n", users[goods[i].sellerId].username);
+        printf("Good Name:\t\t%s\n", goods[i].goodName);
+        printf("Good Price:\t\t%d\n", goods[i].goodPrice);
+        printf("Good Count:\t\t%d\n", goods[i].goodCount);
+    }
+    free(input);
+}
+
+void doBuy(char *input, struct good **goods, int numberOfGoods, struct user **users, int loggedinUserId, struct buyerCart **buyerCart, int *buyerCartCount)
+{
+    // getting and checking goodName and goodPrice and goodCount from input
+    char *goodName = strtok(NULL, " ");
+    if (checkInput(goodName))
+    {
+        free(input);
+        return;
+    }
+    char *goodCount = strtok(NULL, " ");
+    if (checkInput(goodCount))
+    {
+        free(input);
+        return;
+    }
+    char *goodSellerUsername = strtok(NULL, " ");
+    if (checkInput(goodSellerUsername))
+    {
+        free(input);
+        return;
+    }
+    int goodCountValue = atoi(goodCount);
+    if (goodCountValue <= 0)
+    {
+        printf("Wrong Input! Try again!");
+        free(input);
+        return;
+    }
+
+    if (strtok(NULL, " ") != NULL)
+    {
+        printf("too much input arguments!");
+        free(input);
+        return;
+    }
+
+    // search for the goodName for not existing
+    // if good exists I'd assign the id of that good to goodExists Variable
+    int goodExists = -1;
+    int i = 0;
+    while (i < numberOfGoods && numberOfGoods > 0)
+    {
+        if (!strcmp((*goods)[i].goodName, goodName))
+        {
+            goodExists = i;
+            break;
+        }
+        i++;
+    }
+
+    // if good exists do the buying
+    if (goodExists > -1)
+    {
+        if ((*goods)[goodExists].goodCount < goodCountValue)
+        {
+            printf("requested count is more than good count");
+            free(input);
+            return;
+        }
+        if (((*goods)[goodExists].goodPrice) * goodCountValue > (*users)[loggedinUserId].deposit)
+        {
+            printf("you can not afford this good.");
+            free(input);
+            return;
+        }
+        (*goods)[goodExists].goodCount -= goodCountValue;
+        (*users)[loggedinUserId].deposit -= ((*goods)[goodExists].goodPrice) * goodCountValue;
+        (*users)[(*goods)[goodExists].sellerId].deposit += ((*goods)[goodExists].goodPrice) * goodCountValue;
+
+        free(input);
+
+        (*buyerCartCount)++;
+        *buyerCart = (struct buyerCart *)realloc(*buyerCart, *buyerCartCount * sizeof(struct buyerCart));
+        checkMalloc(buyerCart);
+
+        (*buyerCart)[*buyerCartCount - 1].buyerId = loggedinUserId;
+        (*buyerCart)[*buyerCartCount - 1].goodId = goodExists;
+        (*buyerCart)[*buyerCartCount - 1].boughtCount = goodCountValue;
+
+        printf("The good bought successfuly!");
+    }
+    else
+    {
+        printf("this good does not exists!");
+        free(input);
+    }
+}
+
+void doExit(char *input)
+{
+
+    if (strtok(NULL, " ") != NULL)
+    {
+        printf("too much input arguments!");
+        free(input);
+        return;
+    }
+    free(input);
+    return;
+}
+int main()
+{
     printf("Welcome To DaniKala!");
     int numberOfUsers = 0;
     struct user *users = NULL;
@@ -451,122 +572,15 @@ int main()
         }
         else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         {
-            if (strtok(NULL, " ") != NULL)
-            {
-                printf("too much input arguments!");
-                free(input);
-                continue;
-            }
-
-            printf("Showing all goods of DaniKala!\n");
-            for (int i = 0; i < numberOfGoods; i++)
-            {
-                printf("----\n");
-                printf("Seller Username:\t%s\n", users[goods[i].sellerId].username);
-                printf("Good Name:\t\t%s\n", goods[i].goodName);
-                printf("Good Price:\t\t%d\n", goods[i].goodPrice);
-                printf("Good Count:\t\t%d\n", goods[i].goodCount);
-            }
-            free(input);
+            doShowGoods(input, goods, numberOfGoods, users);
         }
         else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         {
-            if (strtok(NULL, " ") != NULL)
-            {
-                printf("too much input arguments!");
-                free(input);
-                continue;
-            }
-
-            // getting and checking goodName and goodPrice and goodCount from input
-            char *goodName = strtok(NULL, " ");
-            if (checkInput(goodName))
-            {
-                free(input);
-                continue;
-            }
-            char *goodCount = strtok(NULL, " ");
-            if (checkInput(goodCount))
-            {
-                free(input);
-                continue;
-            }
-            char *goodSellerUsername = strtok(NULL, " ");
-            if (checkInput(goodSellerUsername))
-            {
-                free(input);
-                continue;
-            }
-            int goodCountValue = atoi(goodCount);
-            if (goodCountValue <= 0)
-            {
-                printf("Wrong Input! Try again!");
-                free(input);
-                continue;
-            }
-
-            // search for the goodName for not existing
-            // if good exists I'd assign the id of that good to goodExists Variable
-            int goodExists = -1;
-            int i = 0;
-            while (i < numberOfGoods && numberOfGoods > 0)
-            {
-                if (!strcmp(goods[i].goodName, goodName))
-                {
-                    goodExists = i;
-                    break;
-                }
-                i++;
-            }
-
-            // if good exists do the buying
-            if (goodExists > -1)
-            {
-                if (goods[goodExists].goodCount < goodCountValue)
-                {
-                    printf("requested count is more than good count");
-                    free(input);
-                    continue;
-                }
-                if ((goods[goodExists].goodPrice) * goodCountValue > users[loggedinUserId].deposit)
-                {
-                    printf("you can not afford this good.");
-                    free(input);
-                    continue;
-                }
-                goods[goodExists].goodCount -= goodCountValue;
-                users[loggedinUserId].deposit -= (goods[goodExists].goodPrice) * goodCountValue;
-                users[goods[goodExists].sellerId].deposit += (goods[goodExists].goodPrice) * goodCountValue;
-
-                free(input);
-
-                buyerCartCount++;
-                buyerCart = (struct buyerCart *)realloc(buyerCart, buyerCartCount * sizeof(struct buyerCart));
-                checkMalloc(buyerCart);
-
-                buyerCart[buyerCartCount - 1].buyerId = loggedinUserId;
-                buyerCart[buyerCartCount - 1].goodId = goodExists;
-                buyerCart[buyerCartCount - 1].boughtCount = goodCountValue;
-
-                printf("The good bought successfuly!");
-            }
-            else
-            {
-                printf("this good does not exists!");
-                free(input);
-            }
+            doBuy(input, &goods, numberOfGoods, &users, loggedinUserId, &buyerCart, &buyerCartCount);
         }
         else if (!strcmp(command, "exit"))
         {
-            if (strtok(NULL, " ") != NULL)
-            {
-                printf("too much input arguments!");
-                free(input);
-                continue;
-            }
-
-            break;
-            free(input);
+            doExit(input);
         }
         else
         {
