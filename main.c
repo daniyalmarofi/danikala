@@ -254,9 +254,9 @@ int main()
                 free(input);
                 continue;
             }
-            int goodPriceValue = 0;
-            int goodCountValue = 0;
-            if (!((goodPriceValue = atoi(goodPrice)) > 0) && !((goodCountValue = atoi(goodCount)) > 0))
+            int goodPriceValue = atoi(goodPrice);
+            int goodCountValue = atoi(goodCount);
+            if (goodPriceValue <= 0 || goodCountValue <= 0)
             {
                 printf("Wrong Input! Try again!");
                 free(input);
