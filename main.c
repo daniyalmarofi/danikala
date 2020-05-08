@@ -465,7 +465,24 @@ int main()
         }
     }
 
-    // TODO add a for loop to clear all allocated momries
+    // clearing all allocated momries
+    for (int i = 0; i < numberOfUsers; i++)
+    {
+        free(users[i].username);
+        free(users[i].password);
+        free(users[i].userType);
+    }
+    free(users);
+
+    for (int i = 0; i < numberOfGoods; i++)
+    {
+        free(goods[i].goodName);
+    }
+    free(goods);
+
+    free(buyerCart);
+    
+    
     free(users);
     return 0;
 }
