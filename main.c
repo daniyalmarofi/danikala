@@ -285,6 +285,12 @@ int main()
         else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         {
             // getting and checking goodName and goodPrice and goodCount from input
+            char *sellerUsername = strtok(NULL, " ");
+            if (checkInput(sellerUsername))
+            {
+                free(input);
+                continue;
+            }
             char *goodName = strtok(NULL, " ");
             if (checkInput(goodName))
             {
@@ -308,6 +314,13 @@ int main()
             if (goodPriceValue <= 0 || goodCountValue <= 0)
             {
                 printf("Wrong Input! Try again!");
+                free(input);
+                continue;
+            }
+
+            if (strcmp(sellerUsername, users[loggedinUserId].username))
+            {
+                printf("you can not add or chnge count of this good!");
                 free(input);
                 continue;
             }
@@ -481,8 +494,7 @@ int main()
     free(goods);
 
     free(buyerCart);
-    
-    
+
     free(users);
     return 0;
 }
