@@ -164,7 +164,7 @@ int main()
                 if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
                 {
                     logedinUserId = i;
-                    printf("%s! Welcome to your dashboard!",users[i].username);
+                    printf("%s! Welcome to your dashboard!", users[i].username);
                     break;
                 }
                 i++;
@@ -176,23 +176,46 @@ int main()
             }
             free(input);
         }
-        else if(!strcmp(command, "logout") && logedinUserId != -1){
+        else if (!strcmp(command, "logout") && logedinUserId != -1)
+        {
             logedinUserId = -1;
+            free(input);
         }
-        else if(!strcmp(command, "view") && logedinUserId != -1){
+        else if (!strcmp(command, "view") && logedinUserId != -1)
+        {
             printf("Displaying user Information:\n");
-            printf("username: %s\t",users[logedinUserId].username);
-            printf("userType: %s\t",users[logedinUserId].userType);
-            printf("Deposit: %s\t",users[logedinUserId].deposit);
+            printf("username: %s\t", users[logedinUserId].username);
+            printf("userType: %s\t", users[logedinUserId].userType);
+            printf("Deposit: %s\t", users[logedinUserId].deposit);
             // TODO add user sells or boughts
+            free(input);
+        }
+        else if (!strcmp(command, "deposit") && logedinUserId != -1 && !strcmp(users[logedinUserId].userType, "buyer"))
+        {
+            // get the deposit value and convert it to integer and add it to user deposit
+            char *deposit = strtok(NULL, " ");
+            int depositvalue = 0;
+            if (checkInput(deposit))
+                continue;
+            if ((depositvalue = atoi(deposit)) != 0)
+            {
+                users[logedinUserId].deposit += depositvalue;
+                printf("%d successfuly added to your deposit.\nNow your deposit is %d.",depositvalue,users[logedinUserId].deposit);
+            }
+            else
+                printf("Wrong input! Try again!");
+
+            free(input);
         }
         else if (!strcmp(command, "exit"))
         {
+            free(input);
             break;
         }
         else
         {
             printf("Command Not Found!");
+            free(input);
         }
     }
 
