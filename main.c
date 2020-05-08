@@ -19,6 +19,13 @@ struct good
     int goodCount;
 };
 
+struct buyerCart
+{
+    int buyerId;
+    int goodId;
+    int boughtCount;
+};
+
 void checkMalloc(void *pointer)
 {
     if (pointer == NULL)
@@ -70,8 +77,8 @@ int main()
     struct good *goods = NULL;
     char *command;
     int loggedinUserId = -1;
-    int buyerBasketCount = 0;
-    int *buyerBasket = NULL;
+    int buyerCartCount = 0;
+    struct buyerCart *buyerCart = NULL;
 
     while (1)
     {
@@ -214,8 +221,48 @@ int main()
             printf("Displaying user Information:\n");
             printf("username: %s\t", users[loggedinUserId].username);
             printf("userType: %s\t", users[loggedinUserId].userType);
-            printf("Deposit: %s\t", users[loggedinUserId].deposit);
-            // TODO add user sells or boughts
+            printf("Deposit: %d\n", users[loggedinUserId].deposit);
+
+            if (!strcmp(users[loggedinUserId].userType, "buyer"))
+            {
+                int thisUserBasket = 0;
+                for (int i = 0; i < buyerCartCount; i++)
+                {
+                    if (buyerCart[i].buyerId == loggedinUserId)
+                    {
+                        thisUserBasket++;
+                        printf("----\n");
+                        printf("Good Name:\t\t%s\n", goods[buyerCart[i].goodId].goodName);
+                        printf("Good Price:\t\t%d\n", goods[buyerCart[i].goodId].goodPrice);
+                        printf("Bought Count:\t\t%d\n", buyerCart[i].boughtCount);
+                        printf("Seller Username:\t%s\n", users[goods[buyerCart[i].goodId].sellerId].username);
+                    }
+                }
+                if (thisUserBasket == 0)
+                {
+                    printf("you have no purchases!");
+                }
+            }
+            else if (!strcmp(users[loggedinUserId].userType, "seller"))
+            {
+                int thisUserGoods = 0;
+                for (int i = 0; i < numberOfGoods; i++)
+                {
+                    if (goods[i].sellerId == loggedinUserId)
+                    {
+                        thisUserGoods++;
+                        printf("----\n");
+                        printf("Good Name:\t\t%s\n", goods[i].goodName);
+                        printf("Good Price:\t\t%d\n", goods[i].goodPrice);
+                        printf("Good Count:\t\t%d\n", goods[i].goodCount);
+                    }
+                }
+                if (thisUserGoods == 0)
+                {
+                    printf("you have no goods!");
+                }
+            }
+
             free(input);
         }
         else if (!strcmp(command, "deposit") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
@@ -267,7 +314,7 @@ int main()
 
             // search for the goodName for not existing
             // if good exists I'd assign the id of that good to goodExists Variable
-            int goodExists = 0;
+            int goodExists = -1;
             int i = 0;
             while (i < numberOfGoods && numberOfGoods > 0)
             {
@@ -280,7 +327,7 @@ int main()
             }
 
             // if new Good does not exists add it to goods
-            if (!goodExists)
+            if (goodExists = -1)
             {
                 char *newGoodname = (char *)malloc(sizeof(char) * strlen(goodName));
                 checkMalloc(newGoodname);
@@ -319,14 +366,92 @@ int main()
             {
                 printf("----\n");
                 printf("Seller Username:\t%s\n", users[goods[i].sellerId].username);
-                printf("Good Name:\t%s\n", goods[i].goodName);
-                printf("Good Price:\t%d\n", goods[i].goodPrice);
-                printf("Good Count:\t%d\n", goods[i].goodCount);
+                printf("Good Name:\t\t%s\n", goods[i].goodName);
+                printf("Good Price:\t\t%d\n", goods[i].goodPrice);
+                printf("Good Count:\t\t%d\n", goods[i].goodCount);
             }
             free(input);
         }
-        else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer")){
-            // doing something!
+        else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
+        {
+
+            // getting and checking goodName and goodPrice and goodCount from input
+            char *goodName = strtok(NULL, " ");
+            if (checkInput(goodName))
+            {
+                free(input);
+                continue;
+            }
+            char *goodCount = strtok(NULL, " ");
+            if (checkInput(goodCount))
+            {
+                free(input);
+                continue;
+            }
+            char *goodSellerUsername = strtok(NULL, " ");
+            if (checkInput(goodSellerUsername))
+            {
+                free(input);
+                continue;
+            }
+            int goodCountValue = atoi(goodCount);
+            if (goodCountValue <= 0)
+            {
+                printf("Wrong Input! Try again!");
+                free(input);
+                continue;
+            }
+
+            // search for the goodName for not existing
+            // if good exists I'd assign the id of that good to goodExists Variable
+            int goodExists = -1;
+            int i = 0;
+            while (i < numberOfGoods && numberOfGoods > 0)
+            {
+                if (!strcmp(goods[i].goodName, goodName))
+                {
+                    goodExists = i;
+                    break;
+                }
+                i++;
+            }
+
+            // if good exists do the buying
+            if (goodExists > -1)
+            {
+                if (goods[goodExists].goodCount < goodCountValue)
+                {
+                    printf("requested count is more than good count");
+                    free(input);
+                    continue;
+                }
+                if ((goods[goodExists].goodPrice) * goodCountValue > users[loggedinUserId].deposit)
+                {
+                    printf("you can not afford this good.");
+                    free(input);
+                    continue;
+                }
+                goods[goodExists].goodCount -= goodCountValue;
+                users[loggedinUserId].deposit -= (goods[goodExists].goodPrice) * goodCountValue;
+                users[goods[goodExists].sellerId].deposit += (goods[goodExists].goodPrice) * goodCountValue;
+
+                free(input);
+
+                buyerCartCount++;
+                buyerCart = (struct buyerCart *)realloc(buyerCart, buyerCartCount * sizeof(struct buyerCart));
+                checkMalloc(buyerCart);
+
+                buyerCart[buyerCartCount - 1].buyerId = loggedinUserId;
+                buyerCart[buyerCartCount - 1].goodId = goodExists;
+                buyerCart[buyerCartCount - 1].boughtCount = goodCountValue;
+
+                printf("The good bought successfuly!");
+            }
+            else
+            {
+                printf("this good does not exists!");
+                free(input);
+            }
         }
         else if (!strcmp(command, "exit"))
         {
