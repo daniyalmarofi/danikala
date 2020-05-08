@@ -20,6 +20,16 @@ void checkMalloc(void *pointer)
     }
 }
 
+int checkInput(void *pointer)
+{
+    if (pointer == NULL)
+    {
+        printf("Wrong Input! Try again.");
+        return 1;
+    }
+    return 0;
+}
+
 char *getCommandLine()
 {
     char *str;
@@ -49,7 +59,7 @@ int main()
     int numberOfUsers = 0;
     struct user *users = NULL;
     char *command;
-
+    int logedinUserId = -1;
     // token = strtok(NULL, " ");
 
     while (1)
@@ -62,24 +72,15 @@ int main()
         if (!strcmp(command, "signup"))
         {
             char *username = strtok(NULL, " ");
-            if (username == NULL)
-            {
-                printf("Wrong Input! Try again.");
+            if (checkInput(username))
                 continue;
-            }
             char *password = strtok(NULL, " ");
-            if (password == NULL)
-            {
-                printf("Wrong Input! Try again.");
+            if (checkInput(password))
                 continue;
-            }
 
             char *userType = strtok(NULL, " ");
-            if (userType == NULL)
-            {
-                printf("Wrong Input! Try again.");
+            if (checkInput(password))
                 continue;
-            }
 
             if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
             {
@@ -133,6 +134,45 @@ int main()
             {
                 continue;
             }
+        }
+        else if (!strcmp(command, "login"))
+        {
+            char *username = strtok(NULL, " ");
+            if (checkInput(username))
+                continue;
+            char *password = strtok(NULL, " ");
+            if (password == NULL)
+            if (checkInput(password))
+                continue;
+
+            char *userType = strtok(NULL, " ");
+            if (checkInput(userType))
+                continue;
+
+            if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
+            {
+                printf("Undefined User Type!");
+                continue;
+            }
+
+            int userExists = 0;
+            int i = 0;
+            while (i < numberOfUsers && numberOfUsers > 0)
+            {
+                if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
+                {
+                    userExists = 1;
+                    printf("Welcome to your dashboard!");
+                    break;
+                }
+                i++;
+            }
+
+            if (!userExists)
+            {
+                printf("the login is invalid!");
+            }
+            free(input);
         }
         else if (!strcmp(command, "exit"))
         {

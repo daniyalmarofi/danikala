@@ -11,3 +11,4 @@ reated by https://www.gitignore.io/api/visualstudiocode
 # End of https://www.gitignore.io/api/visualstudiocode
 
 test*
+*.exe
