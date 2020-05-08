@@ -175,6 +175,9 @@ int main()
             }
             free(input);
         }
+        else if(!strcmp(command, "logout") && logedinUserId != -1){
+            logedinUserId = -1;
+        }
         else if (!strcmp(command, "exit"))
         {
             break;
