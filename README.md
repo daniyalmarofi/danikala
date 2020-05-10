@@ -10,4 +10,4 @@ ICSP 982 - CA2
 - [x] add user sells or boughts
 - [x] add get seller username to add_goods
 - [x] add some comments
-- [ ] (Optional) seperate functions into files
+- [x] (Optional) seperate functions into files
