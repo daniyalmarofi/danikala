@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define TRUE 1
 
+// defining structs
 struct user
 {
     char *username;
@@ -26,6 +28,7 @@ struct buyerCart
     int boughtCount;
 };
 
+//** this function checks malloc and exits program if error
 void checkMalloc(void *pointer)
 {
     if (pointer == NULL)
@@ -35,6 +38,7 @@ void checkMalloc(void *pointer)
     }
 }
 
+//** this function checks for user given parameters
 int checkInput(void *pointer)
 {
     if (pointer == NULL)
@@ -45,6 +49,7 @@ int checkInput(void *pointer)
     return 0;
 }
 
+//** this function gets user input
 char *getCommandLine()
 {
     char *str;
@@ -67,6 +72,7 @@ char *getCommandLine()
     return (char *)realloc(str, sizeof(char) * len);
 }
 
+//** this function signs up a new user
 void doSignup(char *input, int *numberOfUsers, struct user **users)
 {
     // getting and checking username and password and usertype from input
@@ -147,6 +153,7 @@ void doSignup(char *input, int *numberOfUsers, struct user **users)
     return;
 }
 
+//** this function logs in the signed up user
 void doLogin(char *input, int numberOfUsers, struct user *users, int *loggedinUserId)
 {
 
@@ -207,6 +214,7 @@ void doLogin(char *input, int numberOfUsers, struct user *users, int *loggedinUs
     return;
 }
 
+//** this function logs out the logged in user
 void doLogout(char *input, int *loggedinUserId)
 {
     if (strtok(NULL, " ") != NULL)
@@ -221,6 +229,7 @@ void doLogout(char *input, int *loggedinUserId)
     free(input);
 }
 
+//** this function shows the information of the user and history of goods
 void doView(char *input, struct user *users, int loggedinUserId, struct buyerCart *buyerCart, int buyerCartCount, struct good *goods, int numberOfGoods)
 {
 
@@ -279,6 +288,7 @@ void doView(char *input, struct user *users, int loggedinUserId, struct buyerCar
     free(input);
 }
 
+//** this function adds the inputed deposit to buyer
 void doDeposit(char *input, struct user **users, int loggedinUserId)
 {
     // get the deposit value and convert it to integer and add it to user deposit
@@ -305,6 +315,7 @@ void doDeposit(char *input, struct user **users, int loggedinUserId)
     free(input);
 }
 
+//** this function adds a good the store
 void doAddGoods(char *input, struct user *users, int loggedinUserId, struct good **goods, int *numberOfGoods)
 {
     // getting and checking goodName and goodPrice and goodCount from input
@@ -404,6 +415,7 @@ void doAddGoods(char *input, struct user *users, int loggedinUserId, struct good
     }
 }
 
+//** this function shows all the goods for all users
 void doShowGoods(char *input, struct good *goods, int numberOfGoods, struct user *users)
 {
 
@@ -426,6 +438,7 @@ void doShowGoods(char *input, struct good *goods, int numberOfGoods, struct user
     free(input);
 }
 
+//** this function buys the good for the buyer
 void doBuy(char *input, struct good **goods, int numberOfGoods, struct user **users, int loggedinUserId, struct buyerCart **buyerCart, int *buyerCartCount)
 {
     // getting and checking goodName and goodPrice and goodCount from input
@@ -514,6 +527,7 @@ void doBuy(char *input, struct good **goods, int numberOfGoods, struct user **us
     }
 }
 
+//** this function does the exit process
 void doExit(char *input)
 {
 
@@ -526,6 +540,7 @@ void doExit(char *input)
     free(input);
     return;
 }
+
 int main()
 {
     printf("Welcome To DaniKala!");
@@ -538,7 +553,7 @@ int main()
     int buyerCartCount = 0;
     struct buyerCart *buyerCart = NULL;
 
-    while (1)
+    while (TRUE)
     {
         // gettng input from user and checking for the entered command
         printf("\nEnter your Command:");
@@ -581,6 +596,7 @@ int main()
         else if (!strcmp(command, "exit"))
         {
             doExit(input);
+            break;
         }
         else
         {
@@ -589,7 +605,7 @@ int main()
         }
     }
 
-    // clearing all allocated momries
+    // clearing all allocated memories
     for (int i = 0; i < numberOfUsers; i++)
     {
         free(users[i].username);

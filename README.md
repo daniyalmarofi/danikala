@@ -9,5 +9,5 @@ ICSP 982 - CA2
 - [x] add exception: signup user pass seller sdkjfhs (more than expected arguments) to all commands
 - [x] add user sells or boughts
 - [x] add get seller username to add_goods
-- [ ] add some comments and documentation
+- [x] add some comments
 - [ ] (Optional) seperate functions into files
