@@ -6,6 +6,7 @@
 #define HEADERS_IMPORTED
 #define USERSFILE "users.txt"
 #define GOODSFILE "goods.txt"
+#define BUYHISTORYFILE "history.txt"
 
 // defining structs
 struct user

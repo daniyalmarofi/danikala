@@ -82,6 +82,7 @@ int main()
         {
             doBuy(input, &goods, numberOfGoods, &users, loggedinUserId,
                   &buyerCart, &buyerCartCount);
+            saveHistory(buyerCartCount, buyerCart);
         }
         else
         {

@@ -38,3 +38,21 @@ void saveGoods(int numberOfGoods, struct good *goods)
     }
     fclose(fp);
 }
+
+//** This Function saves the buyerCart array to defined BUYHISTORYFILE .txt file
+void saveHistory(int buyerCartCount, struct buyerCart *buyerCart)
+{
+    FILE *fp;
+
+    fp = fopen(BUYHISTORYFILE, "w");
+
+    // loop to goods array and save each to file
+    int i = 0;
+    while (i < buyerCartCount && buyerCartCount > 0)
+    {
+        fprintf(fp, "%d, %d, %d\n", buyerCart[i].buyerId, buyerCart[i].goodId,
+                buyerCart[i].boughtCount);
+        i++;
+    }
+    fclose(fp);
+}
