@@ -12,7 +12,7 @@ void saveUsers(int numberOfUsers, struct user* users) {
     // loop to users array and save each to file
     int i = 0;
     while (i < numberOfUsers && numberOfUsers > 0) {
-        fprintf(fp, "%s, %s, %s, %d", users[i].username, users[i].password,
+        fprintf(fp, "%s, %s, %s, %d\n", users[i].username, users[i].password,
                 users[i].userType, users[i].deposit);
         i++;
     }
