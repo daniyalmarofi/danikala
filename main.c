@@ -67,6 +67,7 @@ int main()
         else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         {
             doAddGoods(input, users, loggedinUserId, &goods, &numberOfGoods);
+            saveGoods(numberOfGoods, goods);
         }
         else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         {

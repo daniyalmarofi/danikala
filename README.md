@@ -11,3 +11,5 @@ ICSP 982 - CA2
 - [x] add get seller username to add_goods
 - [x] add some comments
 - [x] (Optional) seperate functions into files
+- [ ] add save to users after deposit changing!
+- [ ] format the document

@@ -5,6 +5,7 @@
 #define TRUE 1
 #define HEADERS_IMPORTED
 #define USERSFILE "users.txt"
+#define GOODSFILE "goods.txt"
 
 // defining structs
 struct user
