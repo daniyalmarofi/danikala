@@ -23,6 +23,8 @@
 #include "View.h"
 #include "saveToFile.c"
 #include "saveToFile.h"
+#include "readFromFile.h"
+#include "readFromFile.c"
 
 int main()
 {
@@ -35,6 +37,8 @@ int main()
     int loggedinUserId = -1;
     int buyerCartCount = 0;
     struct buyerCart *buyerCart = NULL;
+
+    readUsers(&numberOfUsers, &users);
 
     while (TRUE)
     {

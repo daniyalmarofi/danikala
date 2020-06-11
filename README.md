@@ -14,4 +14,3 @@ ICSP 982 - CA2
 - [x] add save to users after deposit changing!
 - [x] format the document
 - [x] add save goods after adding and buying goods
-
