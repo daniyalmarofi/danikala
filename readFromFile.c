@@ -125,7 +125,7 @@ void readUsers(int *numberOfUsers, struct user **users)
 }
 
 //** This Function reads the goods array from defined GOODSFILE .txt file
-void readGoods(int *numberOfGoods, struct good **goods, int numberOfUsers, user *users)
+void readGoods(int *numberOfGoods, struct good **goods, int numberOfUsers, struct user *users)
 {
     FILE *fp;
 
