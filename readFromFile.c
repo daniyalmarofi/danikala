@@ -42,25 +42,25 @@ void readUsers(int *numberOfUsers, struct user **users)
         if (checkInput(username))
         {
             free(line);
-            return;
+            continue;
         }
         char *password = strtok(NULL, ", ");
         if (checkInput(password))
         {
             free(line);
-            return;
+            continue;
         }
         char *userType = strtok(NULL, ", ");
         if (checkInput(userType))
         {
             free(line);
-            return;
+            continue;
         }
         char *depositChar = strtok(NULL, ", ");
         if (checkInput(depositChar))
         {
             free(line);
-            return;
+            continue;
         }
         int deposit = atoi(depositChar);
 
@@ -68,14 +68,14 @@ void readUsers(int *numberOfUsers, struct user **users)
         {
             printf("\nError reading from users file: too much input arguments!");
             free(line);
-            return;
+            continue;
         }
 
         if (strcmp(userType, "buyer") && strcmp(userType, "seller"))
         {
             printf("\nError reading from users file: Undefined User Type!");
             free(line);
-            return;
+            continue;
         }
 
         // search for the username and usertype for not existing
