@@ -361,3 +361,4 @@ MigrationBackup/
 
 test*
 *.exe
+*.txt

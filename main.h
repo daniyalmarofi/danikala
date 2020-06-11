@@ -4,6 +4,7 @@
 #include <string.h>
 #define TRUE 1
 #define HEADERS_IMPORTED
+#define USERSFILE "users.txt"
 
 // defining structs
 struct user

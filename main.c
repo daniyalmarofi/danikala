@@ -20,6 +20,8 @@
 #include "View.c"
 #include "Buy.h"
 #include "Buy.c"
+#include "saveToFile.h"
+#include "saveToFile.c"
 
 int main()
 {
@@ -44,6 +46,7 @@ int main()
         if (!strcmp(command, "signup") && loggedinUserId == -1)
         {
             doSignup(input, &numberOfUsers, &users);
+            saveUsers(numberOfUsers, users);
         }
         else if (!strcmp(command, "login") && loggedinUserId == -1)
         {
