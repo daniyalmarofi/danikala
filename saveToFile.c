@@ -9,6 +9,8 @@ void saveUsers(int numberOfUsers, struct user *users)
     FILE *fp;
 
     fp = fopen(USERSFILE, "w");
+    if (fp == NULL)
+        return;
 
     // loop to users array and save each to file
     int i = 0;
@@ -27,6 +29,8 @@ void saveGoods(int numberOfGoods, struct good *goods)
     FILE *fp;
 
     fp = fopen(GOODSFILE, "w");
+    if (fp == NULL)
+        return;
 
     // loop to goods array and save each to file
     int i = 0;
@@ -45,6 +49,8 @@ void saveHistory(int buyerCartCount, struct buyerCart *buyerCart)
     FILE *fp;
 
     fp = fopen(BUYHISTORYFILE, "w");
+    if (fp == NULL)
+        return;
 
     // loop to goods array and save each to file
     int i = 0;

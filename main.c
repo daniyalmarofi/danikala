@@ -1,6 +1,5 @@
 #ifndef HEADERS_IMPORTED
 #include "main.h"
-
 #include "commonFunctions.c"
 #include "commonFunctions.h"
 #endif
