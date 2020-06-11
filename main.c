@@ -39,7 +39,7 @@ int main()
     struct buyerCart *buyerCart = NULL;
 
     readUsers(&numberOfUsers, &users);
-    readGoods(&numberOfGoods, &goods);
+    readGoods(&numberOfGoods, &goods, numberOfUsers, users);
     readHistory(&buyerCartCount, &buyerCart, numberOfGoods, goods, numberOfUsers, users);
 
     while (TRUE)

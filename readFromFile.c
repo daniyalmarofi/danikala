@@ -125,7 +125,7 @@ void readUsers(int *numberOfUsers, struct user **users)
 }
 
 //** This Function reads the goods array from defined GOODSFILE .txt file
-void readGoods(int *numberOfGoods, struct good **goods)
+void readGoods(int *numberOfGoods, struct good **goods, int numberOfUsers, user *users)
 {
     FILE *fp;
 
@@ -191,9 +191,16 @@ void readGoods(int *numberOfGoods, struct good **goods)
             }
             i++;
         }
+        
+        // check if the buyer exists
+        // if buyer exists I'd assign the id of that buyer to buyerExists Variable
+        int buyerExists = -1;
+        if(goodSellerId < numberOfUsers && !strcmp(users[goodSellerId].userType,"seller")){
+            buyerExists = goodSellerId;
+        }
 
         // if new Good does not exists add it to goods
-        if (goodExists = -1)
+        if (goodExists = -1 && buyerExists > -1)
         {
             char *newGoodname = (char *)malloc(sizeof(char) * strlen(goodName));
             checkMalloc(newGoodname);
@@ -212,7 +219,7 @@ void readGoods(int *numberOfGoods, struct good **goods)
         }
         else
         {
-            (*goods)[goodExists].goodCount = goodCountValue;
+            printf("\nError reading from goods file:  this good exists! or this seller does not exists!");
 
             free(line);
         }
@@ -299,7 +306,7 @@ void readHistory(int *buyerCartCount, struct buyerCart **buyerCart, int numberOf
         }
         else
         {
-            printf("\nError reading from history file: this good or user does not exists!");
+            printf("\nError reading from history file: this good or buyer does not exists!");
             free(line);
         }
     }
