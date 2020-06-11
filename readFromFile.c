@@ -121,6 +121,7 @@ void readUsers(int *numberOfUsers, struct user **users)
     }
 
     fclose(fp);
+    printf("\nsuccessfully imported users data.");
 }
 
 //** This Function reads the goods array from defined GOODSFILE .txt file
@@ -218,4 +219,91 @@ void readGoods(int *numberOfGoods, struct good **goods)
     }
 
     fclose(fp);
+    printf("\nsuccessfully imported goods data.");
+}
+
+//** This Function reads the history array from defined BUYHISTORYFILE .txt file
+void readHistory(int *buyerCartCount, struct buyerCart **buyerCart, int numberOfGoods, struct good *goods, int numberOfUsers, struct user *users)
+{
+    FILE *fp;
+
+    fp = fopen(BUYHISTORYFILE, "r");
+
+    char *line;
+
+    while ((line = getFileLine(fp)) && *line != NULL)
+    {
+        // getting and checking goodName and goodPrice and goodCount from input
+        char *buyerIdChar = strtok(line, ", ");
+        if (checkInput(buyerIdChar))
+        {
+            free(line);
+            return;
+        }
+        char *goodIdChar = strtok(NULL, ", ");
+        if (checkInput(goodIdChar))
+        {
+            free(line);
+            return;
+        }
+        char *boughtCountChar = strtok(NULL, ", ");
+        if (checkInput(boughtCountChar))
+        {
+            free(line);
+            return;
+        }
+
+        int buyerId = atoi(buyerIdChar);
+        int goodId = atoi(goodIdChar);
+        int boughtCount = atoi(boughtCountChar);
+        if (buyerId < 0 || goodId < 0 || boughtCount <= 0)
+        {
+            printf("\nError reading from history file: Wrong Input!");
+            free(line);
+            continue;
+        }
+
+        if (strtok(NULL, ", ") != NULL)
+        {
+            printf("\nError reading from history file: too much input arguments!");
+            free(line);
+            return;
+        }
+
+        // check if the good exists
+        // if good exists I'd assign the id of that good to goodExists Variable
+        int goodExists = -1;
+        if(goodId < numberOfGoods){
+            goodExists = goodId;
+        }
+
+        // check if the buyer exists
+        // if buyer exists I'd assign the id of that buyer to buyerExists Variable
+        int buyerExists = -1;
+        if(buyerId < numberOfUsers && !strcmp(users[buyerId].userType,"buyer")){
+            buyerExists = buyerId;
+        }
+
+        // if good exists do the buying
+        if (goodExists > -1 && buyerExists > -1)
+        {
+            free(line);
+
+            (*buyerCartCount)++;
+            *buyerCart = (struct buyerCart *)realloc(*buyerCart, *buyerCartCount * sizeof(struct buyerCart));
+            checkMalloc(buyerCart);
+
+            (*buyerCart)[*buyerCartCount - 1].buyerId = buyerExists;
+            (*buyerCart)[*buyerCartCount - 1].goodId = goodExists;
+            (*buyerCart)[*buyerCartCount - 1].boughtCount = boughtCount;
+        }
+        else
+        {
+            printf("\nError reading from history file: this good or user does not exists!");
+            free(line);
+        }
+    }
+
+    fclose(fp);
+    printf("\nsuccessfully imported history data.");
 }

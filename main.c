@@ -40,6 +40,7 @@ int main()
 
     readUsers(&numberOfUsers, &users);
     readGoods(&numberOfGoods, &goods);
+    readHistory(&buyerCartCount, &buyerCart, numberOfGoods, goods, numberOfUsers, users);
 
     while (TRUE)
     {
