@@ -8,24 +8,21 @@
 #define GOODSFILE "goods.txt"
 
 // defining structs
-struct user
-{
+struct user {
     char* username;
     char* password;
     char* userType;
     int deposit;
 };
 
-struct good
-{
+struct good {
     int sellerId;
     char* goodName;
     int goodPrice;
     int goodCount;
 };
 
-struct buyerCart
-{
+struct buyerCart {
     int buyerId;
     int goodId;
     int boughtCount;

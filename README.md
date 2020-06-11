@@ -12,4 +12,6 @@ ICSP 982 - CA2
 - [x] add some comments
 - [x] (Optional) seperate functions into files
 - [ ] add save to users after deposit changing!
-- [ ] format the document
+- [x] format the document
+- [ ] add save goods after adding and buying goods
+
