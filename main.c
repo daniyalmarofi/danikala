@@ -66,6 +66,7 @@ int main()
                  !strcmp(users[loggedinUserId].userType, "buyer"))
         {
             doDeposit(input, &users, loggedinUserId);
+            saveUsers(numberOfUsers, users);
         }
         else if (!strcmp(command, "add_goods") && loggedinUserId != -1 &&
                  !strcmp(users[loggedinUserId].userType, "seller"))
@@ -82,6 +83,8 @@ int main()
         {
             doBuy(input, &goods, numberOfGoods, &users, loggedinUserId,
                   &buyerCart, &buyerCartCount);
+            saveUsers(numberOfUsers, users);
+            saveGoods(numberOfGoods, goods);
             saveHistory(buyerCartCount, buyerCart);
         }
         else
