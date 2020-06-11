@@ -1,16 +1,25 @@
 #ifndef HEADERS_IMPORTED
 #include "main.h"
 #include "commonFunctions.h"
+#include "commonFunctions.c"
 #endif
 
 #include "Signup.h"
+#include "Signup.c"
 #include "Login.h"
+#include "Login.c"
 #include "Logout.h"
+#include "Logout.c"
 #include "Deposit.h"
+#include "Deposit.c"
 #include "AddGoods.h"
+#include "AddGoods.c"
 #include "ShowGoods.h"
+#include "ShowGoods.c"
 #include "View.h"
+#include "View.c"
 #include "Buy.h"
+#include "Buy.c"
 
 int main()
 {
