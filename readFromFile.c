@@ -32,6 +32,8 @@ void readUsers(int *numberOfUsers, struct user **users)
     FILE *fp;
 
     fp = fopen(USERSFILE, "r");
+    if (fp == NULL)
+        return;
 
     char *line;
 
@@ -130,6 +132,8 @@ void readGoods(int *numberOfGoods, struct good **goods, int numberOfUsers, struc
     FILE *fp;
 
     fp = fopen(GOODSFILE, "r");
+    if (fp == NULL)
+        return;
 
     char *line;
 
@@ -191,11 +195,12 @@ void readGoods(int *numberOfGoods, struct good **goods, int numberOfUsers, struc
             }
             i++;
         }
-        
+
         // check if the buyer exists
         // if buyer exists I'd assign the id of that buyer to buyerExists Variable
         int buyerExists = -1;
-        if(goodSellerId < numberOfUsers && !strcmp(users[goodSellerId].userType,"seller")){
+        if (goodSellerId < numberOfUsers && !strcmp(users[goodSellerId].userType, "seller"))
+        {
             buyerExists = goodSellerId;
         }
 
@@ -235,6 +240,8 @@ void readHistory(int *buyerCartCount, struct buyerCart **buyerCart, int numberOf
     FILE *fp;
 
     fp = fopen(BUYHISTORYFILE, "r");
+    if (fp == NULL)
+        return;
 
     char *line;
 
@@ -280,14 +287,16 @@ void readHistory(int *buyerCartCount, struct buyerCart **buyerCart, int numberOf
         // check if the good exists
         // if good exists I'd assign the id of that good to goodExists Variable
         int goodExists = -1;
-        if(goodId < numberOfGoods){
+        if (goodId < numberOfGoods)
+        {
             goodExists = goodId;
         }
 
         // check if the buyer exists
         // if buyer exists I'd assign the id of that buyer to buyerExists Variable
         int buyerExists = -1;
-        if(buyerId < numberOfUsers && !strcmp(users[buyerId].userType,"buyer")){
+        if (buyerId < numberOfUsers && !strcmp(users[buyerId].userType, "buyer"))
+        {
             buyerExists = buyerId;
         }
 
