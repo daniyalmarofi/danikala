@@ -4,7 +4,7 @@
 #endif
 
 //** this function logs out the logged in user
-void doLogout(char* input, int* loggedinUserId)
+void doLogout(char* input, struct user **loggedinUser)
 {
     if (strtok(NULL, " ") != NULL)
     {
@@ -13,7 +13,7 @@ void doLogout(char* input, int* loggedinUserId)
         return;
     }
 
-    *loggedinUserId = -1;
+    *loggedinUser = NULL;
     printf("user Logged out!");
     free(input);
 }
