@@ -46,18 +46,19 @@ void doLogin(char *input, struct user *usersHead, struct user **loggedinUser)
     }
 
     // checking if user exists based on username and password and usertype
-    int usernameExists = 0;
-    struct user *searchedUser = findUser(usersHead, username);
-    if (searchedUser != NULL && !strcmp(searchedUser->password, password) && !strcmp(searchedUser->userType, userType))
+    int userExists = 0;
+    struct user *searchedUser = findUser(usersHead, username, userType);
+    if (searchedUser != NULL && !strcmp(searchedUser->password, password))
     {
-        usernameExists = 1;
+        userExists = 1;
         printf("%s! Welcome to your dashboard!", searchedUser->username);
     }
 
-    if (!usernameExists)
+    if (!userExists)
         printf("the login is invalid!");
     else
-        *loggedinUser=searchedUser;
+        *loggedinUser = searchedUser;
+    
     free(input);
     return;
 }

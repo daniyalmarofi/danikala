@@ -26,13 +26,13 @@ void addUser(struct user *usersHead, char *username, char *password, int deposit
 }
 
 //** This Function gets the head and username and returns the pointer to that node
-struct user *findUser(struct user *usersHead, char *username)
+struct user *findUser(struct user *usersHead, char *username, char *userType)
 {
     // find the last node
     struct user *current = usersHead->next;
     while (current != NULL)
     {
-        if (!strcmp(current->username, username))
+        if (!strcmp(current->username, username) && !strcmp(current->userType, userType))
             return current;
         current = current->next;
     }

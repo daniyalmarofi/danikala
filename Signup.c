@@ -44,8 +44,8 @@ void doSignup(char *input, struct user *usersHead)
 
     // search for the username and usertype for not existing
     int usernameExists = 0;
-    struct user *searchedUser = findUser(usersHead, username);
-    if (searchedUser != NULL && !strcmp(searchedUser->userType, userType))
+    struct user *searchedUser = findUser(usersHead, username, userType);
+    if (searchedUser != NULL)
     {
         usernameExists = 1;
         printf("this username is taken. Please try another.");
