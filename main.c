@@ -54,10 +54,10 @@ int main()
         {
             doLogout(input, &loggedinUser);
         }
-        // else if (!strcmp(command, "view") && loggedinUserId != -1)
-        // {
-        //     doView(input, users, loggedinUserId, buyerCart, buyerCartCount, goods, numberOfGoods);
-        // }
+        else if (!strcmp(command, "view") && loggedinUser != NULL)
+        {
+            doView(input, loggedinUser, buyerCart, buyerCartCount, goods, numberOfGoods);
+        }
         else if (!strcmp(command, "deposit") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
         {
             doDeposit(input, loggedinUser);
