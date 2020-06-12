@@ -22,8 +22,6 @@
 #include "View.h"
 #include "saveToFile.c"
 #include "saveToFile.h"
-#include "readFromFile.h"
-#include "readFromFile.c"
 
 int main()
 {
@@ -37,10 +35,6 @@ int main()
     int buyerCartCount = 0;
     struct buyerCart *buyerCart = NULL;
 
-    readUsers(&numberOfUsers, &users);
-    readGoods(&numberOfGoods, &goods, numberOfUsers, users);
-    readHistory(&buyerCartCount, &buyerCart, numberOfGoods, goods, numberOfUsers, users);
-
     while (TRUE)
     {
         // gettng input from user and checking for the entered command
@@ -52,7 +46,6 @@ int main()
         if (!strcmp(command, "signup") && loggedinUserId == -1)
         {
             doSignup(input, &numberOfUsers, &users);
-            saveUsers(numberOfUsers, users);
         }
         else if (!strcmp(command, "login") && loggedinUserId == -1)
         {
@@ -71,13 +64,11 @@ int main()
                  !strcmp(users[loggedinUserId].userType, "buyer"))
         {
             doDeposit(input, &users, loggedinUserId);
-            saveUsers(numberOfUsers, users);
         }
         else if (!strcmp(command, "add_goods") && loggedinUserId != -1 &&
                  !strcmp(users[loggedinUserId].userType, "seller"))
         {
             doAddGoods(input, users, loggedinUserId, &goods, &numberOfGoods);
-            saveGoods(numberOfGoods, goods);
         }
         else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         {
@@ -88,9 +79,6 @@ int main()
         {
             doBuy(input, &goods, numberOfGoods, &users, loggedinUserId,
                   &buyerCart, &buyerCartCount);
-            saveUsers(numberOfUsers, users);
-            saveGoods(numberOfGoods, goods);
-            saveHistory(buyerCartCount, buyerCart);
         }
         else
         {
