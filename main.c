@@ -62,10 +62,10 @@ int main()
         {
             doDeposit(input, loggedinUser);
         }
-        // else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
-        // {
-        //     doAddGoods(input, users, loggedinUserId, &goods, &numberOfGoods);
-        // }
+        else if (!strcmp(command, "add_goods") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "seller"))
+        {
+            doAddGoods(input, loggedinUser, &goods, &numberOfGoods);
+        }
         // else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         // {
         //     doShowGoods(input, goods, numberOfGoods, users);
