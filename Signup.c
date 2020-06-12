@@ -2,6 +2,8 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
+#include "usersLinkedList.h"
+#include "usersLinkedList.c"
 
 //** this function signs up a new user
 void doSignup(struct user *usersHead, char *input)
@@ -42,16 +44,11 @@ void doSignup(struct user *usersHead, char *input)
 
     // search for the username and usertype for not existing
     int usernameExists = 0;
-    int i = 0;
-    while (i<*numberOfUsers && * numberOfUsers> 0)
+    struct user *searchedUser = findUser(usersHead, username);
+    if (searchedUser != NULL && !strcmp(searchedUser->userType, userType))
     {
-        if (!strcmp((*users)[i].username, username) && !strcmp((*users)[i].userType, userType))
-        {
-            usernameExists = 1;
-            printf("this username is taken. Please try another.");
-            break;
-        }
-        i++;
+        usernameExists = 1;
+        printf("this username is taken. Please try another.");
     }
 
     // if newuser does not exists add it to user
@@ -71,14 +68,8 @@ void doSignup(struct user *usersHead, char *input)
 
         free(input);
 
-        (*numberOfUsers)++;
-        (*users) = (struct user *)realloc((*users), *numberOfUsers * sizeof(struct user));
-        checkMalloc((*users));
+        addUser(usersHead, newUsername, newPassword, 0, newUserType);
 
-        (*users)[*numberOfUsers - 1].username = newUsername;
-        (*users)[*numberOfUsers - 1].password = newPassword;
-        (*users)[*numberOfUsers - 1].deposit = 0;
-        (*users)[*numberOfUsers - 1].userType = newUserType;
         printf("user signed up.");
     }
     return;

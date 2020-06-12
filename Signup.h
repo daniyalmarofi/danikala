@@ -1,2 +1,2 @@
 //** this function signs up a new user
-void doSignup(char* input, int* numberOfUsers, struct user** users);
+void doSignup(struct user *usersHead, char *input);

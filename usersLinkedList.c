@@ -13,6 +13,7 @@ void addUser(struct user *usersHead, char *username, char *password, int deposit
 
     // define the last
     struct user *newUser = (struct user *)malloc(sizeof(struct user));
+    checkMalloc(newUser);
     newUser->username = username;
     newUser->password = password;
     newUser->deposit = deposit;
