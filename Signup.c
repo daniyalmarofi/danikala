@@ -2,11 +2,11 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
-#include "usersLinkedList.h"
 #include "usersLinkedList.c"
+// #include "usersLinkedList.h"
 
 //** this function signs up a new user
-void doSignup(struct user *usersHead, char *input)
+void doSignup(char *input, struct user *usersHead)
 {
     // getting and checking username and password and usertype from input
     char *username = strtok(NULL, " ");

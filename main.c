@@ -30,7 +30,7 @@ int main()
     int numberOfGoods = 0;
     struct good *goods = NULL;
     char *command;
-    int loggedinUserId = -1;
+    struct user *logedinUser = NULL;
     int buyerCartCount = 0;
     struct buyerCart *buyerCart = NULL;
 
@@ -42,30 +42,27 @@ int main()
         checkMalloc(input);
         command = strtok(input, " ");
 
-        if (!strcmp(command, "signup") && loggedinUserId == -1)
+        if (!strcmp(command, "signup") && logedinUser == NULL)
         {
-            doSignup(usersHead,input);
+            doSignup(input, usersHead);
         }
-        // else if (!strcmp(command, "login") && loggedinUserId == -1)
-        // {
-        //     doLogin(input, numberOfUsers, users, &loggedinUserId);
-        // }
+        else if (!strcmp(command, "login") && logedinUser == NULL)
+        {
+            doLogin(input, usersHead, &logedinUser);
+        }
         // else if (!strcmp(command, "logout") && loggedinUserId != -1)
         // {
         //     doLogout(input, &loggedinUserId);
         // }
         // else if (!strcmp(command, "view") && loggedinUserId != -1)
         // {
-        //     doView(input, users, loggedinUserId, buyerCart, buyerCartCount,
-        //            goods, numberOfGoods);
+        //     doView(input, users, loggedinUserId, buyerCart, buyerCartCount, goods, numberOfGoods);
         // }
-        // else if (!strcmp(command, "deposit") && loggedinUserId != -1 &&
-        //          !strcmp(users[loggedinUserId].userType, "buyer"))
+        // else if (!strcmp(command, "deposit") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         // {
         //     doDeposit(input, &users, loggedinUserId);
         // }
-        // else if (!strcmp(command, "add_goods") && loggedinUserId != -1 &&
-        //          !strcmp(users[loggedinUserId].userType, "seller"))
+        // else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         // {
         //     doAddGoods(input, users, loggedinUserId, &goods, &numberOfGoods);
         // }
@@ -73,11 +70,9 @@ int main()
         // {
         //     doShowGoods(input, goods, numberOfGoods, users);
         // }
-        // else if (!strcmp(command, "buy") && loggedinUserId != -1 &&
-        //          !strcmp(users[loggedinUserId].userType, "buyer"))
+        // else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         // {
-        //     doBuy(input, &goods, numberOfGoods, &users, loggedinUserId,
-        //           &buyerCart, &buyerCartCount);
+        //     doBuy(input, &goods, numberOfGoods, &users, loggedinUserId, &buyerCart, &buyerCartCount);
         // }
         else
         {

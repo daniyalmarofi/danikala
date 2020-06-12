@@ -1,28 +1,30 @@
 #ifndef HEADERS_IMPORTED
 #include "main.h"
 #include "commonFunctions.h"
+#include "usersLinkedList.c"
+#include "usersLinkedList.h"
 #endif
+#include "usersLinkedList.h"
 
 //** this function logs in the signed up user
-void doLogin(char* input, int numberOfUsers, struct user* users, int* loggedinUserId)
+void doLogin(char *input, struct user *usersHead, struct user **loggedinUser)
 {
-
     // getting and checking username and password and usertype from input
-    char* username = strtok(NULL, " ");
+    char *username = strtok(NULL, " ");
     if (checkInput(username))
     {
         free(input);
         return;
     }
 
-    char* password = strtok(NULL, " ");
+    char *password = strtok(NULL, " ");
     if (checkInput(password))
     {
         free(input);
         return;
     }
 
-    char* userType = strtok(NULL, " ");
+    char *userType = strtok(NULL, " ");
     if (checkInput(userType))
     {
         free(input);
@@ -44,22 +46,18 @@ void doLogin(char* input, int numberOfUsers, struct user* users, int* loggedinUs
     }
 
     // checking if user exists based on username and password and usertype
-    int i = 0;
-    while (i < numberOfUsers && numberOfUsers > 0)
+    int usernameExists = 0;
+    struct user *searchedUser = findUser(usersHead, username);
+    if (searchedUser != NULL && !strcmp(searchedUser->password, password) && !strcmp(searchedUser->userType, userType))
     {
-        if (!strcmp(users[i].username, username) && !strcmp(users[i].password, password) && !strcmp(users[i].userType, userType))
-        {
-            *loggedinUserId = i;
-            printf("%s! Welcome to your dashboard!", users[i].username);
-            break;
-        }
-        i++;
+        usernameExists = 1;
+        printf("%s! Welcome to your dashboard!", searchedUser->username);
     }
 
-    if (*loggedinUserId == -1)
-    {
+    if (!usernameExists)
         printf("the login is invalid!");
-    }
+    else
+        *loggedinUser=searchedUser;
     free(input);
     return;
 }

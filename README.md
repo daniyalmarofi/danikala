@@ -17,3 +17,4 @@ ICSP 982 - CA2
 - [x] continue to read if there was an error
 - [x] add seller check to readGoods function
 - [x] error handle if file does not exist
+- [ ] debug findUser userType not checking
