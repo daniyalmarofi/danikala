@@ -15,6 +15,7 @@ struct user
     char *password;
     char *userType;
     int deposit;
+    struct user *next;
 };
 
 struct good
@@ -23,6 +24,7 @@ struct good
     char *goodName;
     int goodPrice;
     int goodCount;
+    struct good *next;
 };
 
 struct buyerCart
@@ -30,4 +32,5 @@ struct buyerCart
     int buyerId;
     int goodId;
     int boughtCount;
+    struct buyerCart *next;
 };
