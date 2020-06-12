@@ -30,7 +30,7 @@ int main()
     int numberOfGoods = 0;
     struct good *goods = NULL;
     char *command;
-    struct user *logedinUser = NULL;
+    struct user *loggedinUser = NULL;
     int buyerCartCount = 0;
     struct buyerCart *buyerCart = NULL;
 
@@ -42,26 +42,26 @@ int main()
         checkMalloc(input);
         command = strtok(input, " ");
 
-        if (!strcmp(command, "signup") && logedinUser == NULL)
+        if (!strcmp(command, "signup") && loggedinUser == NULL)
         {
             doSignup(input, usersHead);
         }
-        else if (!strcmp(command, "login") && logedinUser == NULL)
+        else if (!strcmp(command, "login") && loggedinUser == NULL)
         {
-            doLogin(input, usersHead, &logedinUser);
+            doLogin(input, usersHead, &loggedinUser);
         }
-        // else if (!strcmp(command, "logout") && loggedinUserId != -1)
-        // {
-        //     doLogout(input, &loggedinUserId);
-        // }
+        else if (!strcmp(command, "logout") && loggedinUser != NULL)
+        {
+            doLogout(input, &loggedinUser);
+        }
         // else if (!strcmp(command, "view") && loggedinUserId != -1)
         // {
         //     doView(input, users, loggedinUserId, buyerCart, buyerCartCount, goods, numberOfGoods);
         // }
-        // else if (!strcmp(command, "deposit") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
-        // {
-        //     doDeposit(input, &users, loggedinUserId);
-        // }
+        else if (!strcmp(command, "deposit") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
+        {
+            doDeposit(input, loggedinUser);
+        }
         // else if (!strcmp(command, "add_goods") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "seller"))
         // {
         //     doAddGoods(input, users, loggedinUserId, &goods, &numberOfGoods);
