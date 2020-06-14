@@ -20,7 +20,7 @@ struct user
 
 struct good
 {
-    int sellerId;
+    struct user *seller;
     char *goodName;
     int goodPrice;
     int goodCount;

@@ -7,7 +7,7 @@
 void addGood(struct good *goodsHead, struct user *seller, char *goodName, int goodPrice, int goodCount)
 {
     // find the last node
-    struct user *last = goodsHead;
+    struct good *last = goodsHead;
     while (last->next != NULL)
         last = last->next;
 

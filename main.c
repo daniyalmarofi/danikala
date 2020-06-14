@@ -6,16 +6,16 @@
 
 #include "AddGoods.c"
 #include "AddGoods.h"
-#include "Buy.c"
-#include "Buy.h"
+// #include "Buy.c"
+// #include "Buy.h"
 #include "Deposit.c"
 #include "Deposit.h"
 #include "Login.c"
 #include "Login.h"
 #include "Logout.c"
 #include "Logout.h"
-#include "ShowGoods.c"
-#include "ShowGoods.h"
+// #include "ShowGoods.c"
+// #include "ShowGoods.h"
 #include "Signup.c"
 #include "Signup.h"
 #include "View.c"
@@ -27,8 +27,9 @@ int main()
 
     struct user *usersHead = (struct user *)malloc(sizeof(struct user));
     usersHead->next = NULL;
-    int numberOfGoods = 0;
-    struct good *goods = NULL;
+    struct good *goodsHead = (struct good *)malloc(sizeof(struct good));
+    goodsHead->next = NULL;
+
     char *command;
     struct user *loggedinUser = NULL;
     int buyerCartCount = 0;
@@ -56,7 +57,7 @@ int main()
         }
         else if (!strcmp(command, "view") && loggedinUser != NULL)
         {
-            doView(input, loggedinUser, buyerCart, buyerCartCount, goods, numberOfGoods);
+            // doView(input, loggedinUser, buyerCart, buyerCartCount, goods, numberOfGoods);
         }
         else if (!strcmp(command, "deposit") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
         {
@@ -64,7 +65,7 @@ int main()
         }
         else if (!strcmp(command, "add_goods") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "seller"))
         {
-            doAddGoods(input, loggedinUser, &goods, &numberOfGoods);
+            doAddGoods(input, loggedinUser, goodsHead);
         }
         // else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
         // {
@@ -90,12 +91,12 @@ int main()
     // }
     // free(users);
 
-    for (int i = 0; i < numberOfGoods; i++)
-    {
-        free(goods[i].goodName);
-    }
-    free(goods);
+    // for (int i = 0; i < numberOfGoods; i++)
+    // {
+    //     free(goods[i].goodName);
+    // }
+    // free(goods);
 
-    free(buyerCart);
+    // free(buyerCart);
     return 0;
 }
