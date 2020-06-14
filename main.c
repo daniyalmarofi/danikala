@@ -57,7 +57,7 @@ int main()
         }
         else if (!strcmp(command, "view") && loggedinUser != NULL)
         {
-            // doView(input, loggedinUser, buyerCart, buyerCartCount, goods, numberOfGoods);
+            doView(input, loggedinUser, buyerCart, buyerCartCount, goodsHead);
         }
         else if (!strcmp(command, "deposit") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
         {
