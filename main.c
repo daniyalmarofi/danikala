@@ -82,22 +82,6 @@ int main()
             free(input);
         }
     }
-
-    // clearing all allocated memories
-    // for (int i = 0; i < numberOfUsers; i++)
-    // {
-    //     free(users[i].username);
-    //     free(users[i].password);
-    //     free(users[i].userType);
-    // }
-    // free(users);
-
-    // for (int i = 0; i < numberOfGoods; i++)
-    // {
-    //     free(goods[i].goodName);
-    // }
-    // free(goods);
-
-    // free(buyerCart);
+    
     return 0;
 }
