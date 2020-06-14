@@ -4,7 +4,7 @@
 #endif
 
 //** this function shows the information of the user and history of goods
-void doView(char *input, struct user *loggedinUser, struct buyerCart *buyerCart, int buyerCartCount, struct good *goodsHead)
+void doView(char *input, struct user *loggedinUser, struct buyerCart *buyerCart, struct good *goodsHead)
 {
 
     if (strtok(NULL, " ") != NULL)
@@ -19,28 +19,29 @@ void doView(char *input, struct user *loggedinUser, struct buyerCart *buyerCart,
     printf("userType: %s\t", loggedinUser->userType);
     printf("Deposit: %d\n", loggedinUser->deposit);
 
-    // if (!strcmp(loggedinUser->userType, "buyer"))
-    // {
-    //     int thisUserBasket = 0;
-    //     for (int i = 0; i < buyerCartCount; i++)
-    //     {
-    //         if (buyerCart[i].buyerId == loggedinUser)
-    //         {
-    //             thisUserBasket++;
-    //             printf("----\n");
-    //             printf("Good Name:\t\t%s\n", goods[buyerCart[i].goodId].goodName);
-    //             printf("Good Price:\t\t%d\n", goods[buyerCart[i].goodId].goodPrice);
-    //             printf("Bought Count:\t\t%d\n", buyerCart[i].boughtCount);
-    //             printf("Seller Username:\t%s\n", users[goods[buyerCart[i].goodId].sellerId].username);
-    //         }
-    //     }
-    //     if (thisUserBasket == 0)
-    //     {
-    //         printf("you have no purchases!");
-    //     }
-    // }
-    // else
-    if (!strcmp(loggedinUser->userType, "seller"))
+    if (!strcmp(loggedinUser->userType, "buyer"))
+    {
+        int thisUserBasket = 0;
+        struct buyerCart *current = buyerCart->next;
+        while (current != NULL)
+        {
+            if (!strcmp(current->buyer->username, loggedinUser->username))
+            {
+                thisUserBasket++;
+                printf("----\n");
+                printf("Good Name:\t\t%s\n", current->boughtGood->goodName);
+                printf("Good Price:\t\t%d\n", current->boughtGood->goodPrice);
+                printf("Bought Count:\t\t%d\n", current->boughtCount);
+                printf("Seller Username:\t%s\n", current->boughtGood->seller->username);
+            }
+            current = current->next;
+        }
+        if (thisUserBasket == 0)
+        {
+            printf("you have no purchases!");
+        }
+    }
+    else if (!strcmp(loggedinUser->userType, "seller"))
     {
         int thisUserGoods = 0;
         struct good *current = goodsHead->next;

@@ -32,8 +32,9 @@ int main()
 
     char *command;
     struct user *loggedinUser = NULL;
-    int buyerCartCount = 0;
-    struct buyerCart *buyerCart = NULL;
+
+    struct buyerCart *buyerCart = (struct buyerCart *)malloc(sizeof(struct buyerCart));
+    buyerCart->next = NULL;
 
     while (TRUE)
     {
@@ -57,7 +58,7 @@ int main()
         }
         else if (!strcmp(command, "view") && loggedinUser != NULL)
         {
-            doView(input, loggedinUser, buyerCart, buyerCartCount, goodsHead);
+            doView(input, loggedinUser, buyerCart, goodsHead);
         }
         else if (!strcmp(command, "deposit") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
         {
@@ -71,9 +72,9 @@ int main()
         {
             doShowGoods(input, goodsHead);
         }
-        // else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
+        // else if (!strcmp(command, "buy") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
         // {
-        //     doBuy(input, &goods, numberOfGoods, &users, loggedinUserId, &buyerCart, &buyerCartCount);
+        //     doBuy(input, goodsHead, usersHead, loggedinUser, buyerCart);
         // }
         else
         {

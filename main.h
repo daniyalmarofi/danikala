@@ -29,8 +29,8 @@ struct good
 
 struct buyerCart
 {
-    int buyerId;
-    int goodId;
+    struct user *buyer;
+    struct good *boughtGood;
     int boughtCount;
     struct buyerCart *next;
 };
