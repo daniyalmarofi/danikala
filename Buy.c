@@ -4,22 +4,22 @@
 #endif
 
 //** this function buys the good for the buyer
-void doBuy(char* input, struct good** goods, int numberOfGoods, struct user** users, int loggedinUserId, struct buyerCart** buyerCart, int* buyerCartCount)
+void doBuy(char *input, struct good *goodsHead, struct user *loggedinUser, struct buyerCart *buyerCart)
 {
     // getting and checking goodName and goodPrice and goodCount from input
-    char* goodName = strtok(NULL, " ");
+    char *goodName = strtok(NULL, " ");
     if (checkInput(goodName))
     {
         free(input);
         return;
     }
-    char* goodCount = strtok(NULL, " ");
+    char *goodCount = strtok(NULL, " ");
     if (checkInput(goodCount))
     {
         free(input);
         return;
     }
-    char* goodSellerUsername = strtok(NULL, " ");
+    char *goodSellerUsername = strtok(NULL, " ");
     if (checkInput(goodSellerUsername))
     {
         free(input);
@@ -41,53 +41,54 @@ void doBuy(char* input, struct good** goods, int numberOfGoods, struct user** us
     }
 
     // search for the goodName for not existing
-    // if good exists I'd assign the id of that good to goodExists Variable
-    int goodExists = -1;
-    int i = 0;
-    while (i < numberOfGoods && numberOfGoods > 0)
-    {
-        if (!strcmp((*goods)[i].goodName, goodName))
-        {
-            goodExists = i;
-            break;
-        }
-        i++;
-    }
+    int goodExists = 0;
+    struct good *searchedGood = findGood(goodsHead, goodName);
+    if (searchedGood != NULL)
+        goodExists = 1;
 
     // if good exists do the buying
-    if (goodExists > -1)
+    if (goodExists == 1)
     {
-        if ((*goods)[goodExists].goodCount < goodCountValue)
+        if (searchedGood->goodCount < goodCountValue)
         {
             printf("requested count is more than good count");
             free(input);
             return;
         }
-        if (((*goods)[goodExists].goodPrice) * goodCountValue > (*users)[loggedinUserId].deposit)
+        if ((searchedGood->goodPrice) * goodCountValue > loggedinUser->deposit)
         {
             printf("you can not afford this good.");
             free(input);
             return;
         }
-        (*goods)[goodExists].goodCount -= goodCountValue;
-        (*users)[loggedinUserId].deposit -= ((*goods)[goodExists].goodPrice) * goodCountValue;
-        (*users)[(*goods)[goodExists].sellerId].deposit += ((*goods)[goodExists].goodPrice) * goodCountValue;
+
+        // find the last node
+        struct buyerCart *last = buyerCart;
+        while (last->next != NULL)
+            last = last->next;
+
+        // define the last node
+        struct buyerCart *newbuyerCart = (struct buyerCart *)malloc(sizeof(struct buyerCart));
+        checkMalloc(newbuyerCart);
+        newbuyerCart->buyer=loggedinUser;
+        newbuyerCart->boughtGood=searchedGood;
+        newbuyerCart->boughtCount = goodCountValue;
+        newbuyerCart->next = NULL;
+
+        last->next=newbuyerCart;
+
+        // move money from buyer to seller
+        searchedGood->goodCount -= goodCountValue;
+        loggedinUser->deposit -= (searchedGood->goodPrice) * goodCountValue;
+        searchedGood->seller->deposit += (searchedGood->goodPrice) * goodCountValue;
 
         free(input);
-
-        (*buyerCartCount)++;
-        *buyerCart = (struct buyerCart*)realloc(*buyerCart, *buyerCartCount * sizeof(struct buyerCart));
-        checkMalloc(buyerCart);
-
-        (*buyerCart)[*buyerCartCount - 1].buyerId = loggedinUserId;
-        (*buyerCart)[*buyerCartCount - 1].goodId = goodExists;
-        (*buyerCart)[*buyerCartCount - 1].boughtCount = goodCountValue;
 
         printf("The good bought successfuly!");
     }
     else
     {
-        printf("this good does not exists!");
+        printf("this good does not exist!");
         free(input);
     }
 }

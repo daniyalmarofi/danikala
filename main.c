@@ -6,8 +6,8 @@
 
 #include "AddGoods.c"
 #include "AddGoods.h"
-// #include "Buy.c"
-// #include "Buy.h"
+#include "Buy.c"
+#include "Buy.h"
 #include "Deposit.c"
 #include "Deposit.h"
 #include "Login.c"
@@ -72,10 +72,10 @@ int main()
         {
             doShowGoods(input, goodsHead);
         }
-        // else if (!strcmp(command, "buy") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
-        // {
-        //     doBuy(input, goodsHead, usersHead, loggedinUser, buyerCart);
-        // }
+        else if (!strcmp(command, "buy") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
+        {
+            doBuy(input, goodsHead, loggedinUser, buyerCart);
+        }
         else
         {
             printf("Command Not Found!");
