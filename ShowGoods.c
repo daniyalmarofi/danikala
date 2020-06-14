@@ -4,7 +4,7 @@
 #endif
 
 //** this function shows all the goods for all users
-void doShowGoods(char* input, struct good* goods, int numberOfGoods, struct user* users)
+void doShowGoods(char* input, struct good* goodsHead)
 {
 
     if (strtok(NULL, " ") != NULL)
@@ -15,13 +15,15 @@ void doShowGoods(char* input, struct good* goods, int numberOfGoods, struct user
     }
 
     printf("Showing all goods of DaniKala!\n");
-    for (int i = 0; i < numberOfGoods; i++)
+    struct good *current = goodsHead->next;
+    while (current != NULL)
     {
         printf("----\n");
-        printf("Seller Username:\t%s\n", users[goods[i].sellerId].username);
-        printf("Good Name:\t\t%s\n", goods[i].goodName);
-        printf("Good Price:\t\t%d\n", goods[i].goodPrice);
-        printf("Good Count:\t\t%d\n", goods[i].goodCount);
+        printf("Seller Username:\t%s\n", current->seller->username);
+        printf("Good Name:\t\t%s\n", current->goodName);
+        printf("Good Price:\t\t%d\n", current->goodPrice);
+        printf("Good Count:\t\t%d\n", current->goodCount);
+        current = current->next;
     }
     free(input);
 }

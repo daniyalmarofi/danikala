@@ -14,8 +14,8 @@
 #include "Login.h"
 #include "Logout.c"
 #include "Logout.h"
-// #include "ShowGoods.c"
-// #include "ShowGoods.h"
+#include "ShowGoods.c"
+#include "ShowGoods.h"
 #include "Signup.c"
 #include "Signup.h"
 #include "View.c"
@@ -67,10 +67,10 @@ int main()
         {
             doAddGoods(input, loggedinUser, goodsHead);
         }
-        // else if (!strcmp(command, "show_goods") && loggedinUserId != -1)
-        // {
-        //     doShowGoods(input, goods, numberOfGoods, users);
-        // }
+        else if (!strcmp(command, "show_goods") && loggedinUser != NULL)
+        {
+            doShowGoods(input, goodsHead);
+        }
         // else if (!strcmp(command, "buy") && loggedinUserId != -1 && !strcmp(users[loggedinUserId].userType, "buyer"))
         // {
         //     doBuy(input, &goods, numberOfGoods, &users, loggedinUserId, &buyerCart, &buyerCartCount);
