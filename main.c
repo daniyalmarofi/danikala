@@ -50,7 +50,7 @@ int main()
     goodsHead->next = NULL;
 
     addGood(goodsHead, usersHead->next, "watch2", 1000, 10, GOOD_ACTIVE);
-    addGood(goodsHead, usersHead->next, "watch", 1000, 10, GOOD_ACTIVE);
+    addGood(goodsHead, usersHead->next, "watch", 2000, 10, GOOD_ACTIVE);
 
     char *command;
     struct user *loggedinUser = usersHead->next;

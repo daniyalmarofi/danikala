@@ -30,8 +30,8 @@ struct good *searchName(struct good *goodsHead, char *goodName)
 
     return retLL;
 }
-
 //** This function searches for the goods from the sellerUsername
+
 struct good *searchSellerUsername(struct good *goodsHead, char *sellerUsername, int searchedOnce)
 {
     // create the result LL
@@ -46,6 +46,7 @@ struct good *searchSellerUsername(struct good *goodsHead, char *sellerUsername, 
         {
             addGood(searchedHead, current->seller, current->goodName, current->goodPrice, current->goodCount, GOOD_ACTIVE);
         }
+        // free uneeded memories
         struct good *temp = current->next;
         if (searchedOnce)
         {
@@ -55,15 +56,79 @@ struct good *searchSellerUsername(struct good *goodsHead, char *sellerUsername, 
         current = temp;
     }
 
+    // free unneeded memory
     struct good *retLL = searchedHead->next;
     free(searchedHead);
 
     return retLL;
 }
 
+//** This function searches for the goods with the min price
+struct good *searchMinPrice(struct good *goodsHead, int minPrice, int searchedOnce)
+{
+    // create the result LL
+    struct good *searchedHead = (struct good *)malloc(sizeof(struct good));
+    searchedHead->next = NULL;
+
+    // search the goods for the condition
+    struct good *current = goodsHead;
+    while (current != NULL)
+    {
+        if (current->goodPrice >= minPrice && current->status == GOOD_ACTIVE)
+        {
+            addGood(searchedHead, current->seller, current->goodName, current->goodPrice, current->goodCount, GOOD_ACTIVE);
+        }
+        // free uneeded memories
+        struct good *temp = current->next;
+        if (searchedOnce)
+        {
+            free(current->goodName);
+            free(current);
+        }
+        current = temp;
+    }
+
+    // free unneeded memory
+    struct good *retLL = searchedHead->next;
+    free(searchedHead);
+
+    return retLL;
+}
+
+//** This function searches for the goods with the max price
+struct good *searchMaxPrice(struct good *goodsHead, int maxPrice, int searchedOnce)
+{
+    // create the result LL
+    struct good *searchedHead = (struct good *)malloc(sizeof(struct good));
+    searchedHead->next = NULL;
+
+    // search the goods for the condition
+    struct good *current = goodsHead;
+    while (current != NULL)
+    {
+        if (current->goodPrice <= maxPrice && current->status == GOOD_ACTIVE)
+        {
+            addGood(searchedHead, current->seller, current->goodName, current->goodPrice, current->goodCount, GOOD_ACTIVE);
+        }
+        // free uneeded memories
+        struct good *temp = current->next;
+        if (searchedOnce)
+        {
+            free(current->goodName);
+            free(current);
+        }
+        current = temp;
+    }
+
+    // free unneeded memory
+    struct good *retLL = searchedHead->next;
+    free(searchedHead);
+
+    return retLL;
+}
 
 //** this function does the search and shows the result
-void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerUsernameSearch)
+void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerUsernameSearch, int minPriceSearch, int maxPriceSearch)
 {
     // call the functions to search acoording to each condition
     struct good *searchingList = goodsHead->next;
@@ -76,6 +141,16 @@ void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerU
     if (sellerUsernameSearch != NULL)
     {
         searchingList = searchSellerUsername(searchingList, sellerUsernameSearch, searchedOnce);
+        searchedOnce = 1;
+    }
+    if (minPriceSearch != 0)
+    {
+        searchingList = searchMinPrice(searchingList, minPriceSearch, searchedOnce);
+        searchedOnce = 1;
+    }
+    if (maxPriceSearch != 0)
+    {
+        searchingList = searchMaxPrice(searchingList, maxPriceSearch, searchedOnce);
         searchedOnce = 1;
     }
 
@@ -193,7 +268,7 @@ void doSearch(char *input, struct good *goodsHead)
         free(input);
     }
 
-    searchAndShowResult(goodsHead, nameSearch, sellerUsernameSearch);
+    searchAndShowResult(goodsHead, nameSearch, sellerUsernameSearch, minPriceSearch, maxPriceSearch);
 
     return;
 }
