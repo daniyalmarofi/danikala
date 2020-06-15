@@ -84,5 +84,5 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
 
     free(input);
 
-    printf("The good bought successfuly!");
+    printf("The good rated successfuly!");
 }

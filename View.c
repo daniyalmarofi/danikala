@@ -34,7 +34,7 @@ void doView(char *input, struct user *loggedinUser, struct buyerCart *buyerCart,
                 printf("Bought Count:\t\t%d\n", current->boughtCount);
                 printf("Good Rate:\t\t%.2f\n", current->boughtGood->numberOfRatings == 0 ? 0 : (float)(current->boughtGood->sumOfRates / current->boughtGood->numberOfRatings));
                 printf("Seller Username:\t%s\n", current->boughtGood->seller->username);
-                printf("\nYou %s\n", current->rated == BUYERRATED ? "rated this Good" : "Did not rate this Good");
+                printf("\nYou %s\n", current->rated == BUYERRATED ? "rated this purchase" : "Did not rate this purchase");
             }
             current = current->next;
         }
