@@ -50,7 +50,13 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
         free(input);
         return;
     }
-    
+
+    if (strcmp(searchedGood->seller->username, goodSellerUsername))
+    {
+        printf("the seller username is wrong!");
+        free(input);
+        return;
+    }
 
     // search history to find the bought record
     struct buyerCart *currentUserBasket = NULL;

@@ -46,6 +46,13 @@ void doBuy(char *input, struct good *goodsHead, struct user *loggedinUser, struc
     if (searchedGood != NULL)
         goodExists = 1;
 
+    if (strcmp(searchedGood->seller->username, goodSellerUsername))
+    {
+        printf("the seller username is wrong!");
+        free(input);
+        return;
+    }
+
     // if good exists do the buying
     if (goodExists == 1)
     {
