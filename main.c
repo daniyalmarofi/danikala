@@ -26,6 +26,7 @@
 #include "ChangeGoodsPrice.h"
 #include "RateGoods.c"
 #include "RateGoods.h"
+#include "SearchGoods.c"
 
 
 
@@ -109,7 +110,7 @@ int main()
         {
             doRateGoods(input, goodsHead, loggedinUser, buyerCart);
         }
-        else if(!strcmp(command, "rate_goods") && loggedinUser != NULL){
+        else if(!strcmp(command, "search") && loggedinUser != NULL){
             doSearch(input, goodsHead);
         }
         else
