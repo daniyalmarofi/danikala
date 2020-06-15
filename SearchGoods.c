@@ -155,12 +155,14 @@ void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerU
     }
 
     // Now show the List
-    printf("Showing all goods of DaniKala!\n");
+    printf("-----------\nShowing all goods of DaniKala!\n");
     struct good *current = searchingList;
+    int goodsCount = 0;
     while (current != NULL)
     {
         if (current->status != GOOD_DELETED)
         {
+            goodsCount++;
             printf("----\n");
             printf("Seller Username:\t%s\n", current->seller->username);
             printf("Good Name:\t\t%s\n", current->goodName);
@@ -173,6 +175,12 @@ void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerU
         }
         current = current->next;
     }
+
+    if (goodsCount == 0)
+    {
+        printf("Nothing Found!");
+    }
+
     return;
 }
 

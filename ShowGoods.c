@@ -19,10 +19,12 @@ void doShowGoods(char *input, struct good *goodsHead)
     sortGoods(goodsHead);
     printf("Showing all goods of DaniKala!\n");
     struct good *current = goodsHead->next;
+    int goodsCount = 0;
     while (current != NULL)
     {
         if (current->status != GOOD_DELETED)
         {
+            goodsCount++;
             printf("----\n");
             printf("Seller Username:\t%s\n", current->seller->username);
             printf("Good Name:\t\t%s\n", current->goodName);
@@ -35,5 +37,11 @@ void doShowGoods(char *input, struct good *goodsHead)
         }
         current = current->next;
     }
+
+    if (goodsCount == 0)
+    {
+        printf("Nothing Found!");
+    }
+
     free(input);
 }
