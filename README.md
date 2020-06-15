@@ -19,3 +19,4 @@ ICSP 982 - CA2
 - [x] error handle if file does not exist
 - [x] debug findUser userType not checking
 - [ ] check includes in vsc
+- [x] handle price change for previous bought goods

@@ -70,12 +70,13 @@ void doBuy(char *input, struct good *goodsHead, struct user *loggedinUser, struc
         // define the last node
         struct buyerCart *newbuyerCart = (struct buyerCart *)malloc(sizeof(struct buyerCart));
         checkMalloc(newbuyerCart);
-        newbuyerCart->buyer=loggedinUser;
-        newbuyerCart->boughtGood=searchedGood;
+        newbuyerCart->buyer = loggedinUser;
+        newbuyerCart->boughtGood = searchedGood;
         newbuyerCart->boughtCount = goodCountValue;
+        newbuyerCart->boughtPrice = searchedGood->goodPrice;
         newbuyerCart->next = NULL;
 
-        last->next=newbuyerCart;
+        last->next = newbuyerCart;
 
         // move money from buyer to seller
         searchedGood->goodCount -= goodCountValue;

@@ -34,6 +34,7 @@ struct buyerCart
 {
     struct user *buyer;
     struct good *boughtGood;
+    int boughtPrice;
     int boughtCount;
     struct buyerCart *next;
 };

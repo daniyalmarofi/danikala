@@ -30,7 +30,7 @@ void doView(char *input, struct user *loggedinUser, struct buyerCart *buyerCart,
                 thisUserBasket++;
                 printf("----\n");
                 printf("Good Name:\t\t%s\n", current->boughtGood->goodName);
-                printf("Good Price:\t\t%d\n", current->boughtGood->goodPrice);
+                printf("Bought Price:\t\t%d\n", current->boughtPrice);
                 printf("Bought Count:\t\t%d\n", current->boughtCount);
                 printf("Seller Username:\t%s\n", current->boughtGood->seller->username);
             }
