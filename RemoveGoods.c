@@ -39,7 +39,7 @@ void doRemoveGoods(char *input, struct user *loggedinUser, struct good *goodsHea
             return;
         }
 
-        searchedGood->status = GOODDELETED;
+        searchedGood->status = GOOD_DELETED;
 
         printf("Good Successfully removed.");
     }

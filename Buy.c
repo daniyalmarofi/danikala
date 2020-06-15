@@ -43,7 +43,7 @@ void doBuy(char *input, struct good *goodsHead, struct user *loggedinUser, struc
     // search for the goodName for not existing
     int goodExists = 0;
     struct good *searchedGood = findGood(goodsHead, goodName);
-    if (searchedGood != NULL)
+    if (searchedGood != NULL && searchedGood->status == GOOD_ACTIVE)
         goodExists = 1;
 
     if (strcmp(searchedGood->seller->username, goodSellerUsername))
@@ -81,7 +81,7 @@ void doBuy(char *input, struct good *goodsHead, struct user *loggedinUser, struc
         newbuyerCart->boughtGood = searchedGood;
         newbuyerCart->boughtCount = goodCountValue;
         newbuyerCart->boughtPrice = searchedGood->goodPrice;
-        newbuyerCart->rated = BUYERNOTRATED;
+        newbuyerCart->rated = BUYER_NOT_RATED;
         newbuyerCart->next = NULL;
 
         last->next = newbuyerCart;

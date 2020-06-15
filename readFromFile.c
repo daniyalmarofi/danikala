@@ -31,7 +31,7 @@ void readUsers(int *numberOfUsers, struct user **users)
 {
     FILE *fp;
 
-    fp = fopen(USERSFILE, "r");
+    fp = fopen(USERS_FILE, "r");
     if (fp == NULL)
         return;
 
@@ -131,7 +131,7 @@ void readGoods(int *numberOfGoods, struct good **goods, int numberOfUsers, struc
 {
     FILE *fp;
 
-    fp = fopen(GOODSFILE, "r");
+    fp = fopen(GOODS_FILE, "r");
     if (fp == NULL)
         return;
 
@@ -239,7 +239,7 @@ void readHistory(int *buyerCartCount, struct buyerCart **buyerCart, int numberOf
 {
     FILE *fp;
 
-    fp = fopen(BUYHISTORYFILE, "r");
+    fp = fopen(BUY_HISTORY_FILE, "r");
     if (fp == NULL)
         return;
 

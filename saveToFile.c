@@ -8,7 +8,7 @@ void saveUsers(int numberOfUsers, struct user *users)
 {
     FILE *fp;
 
-    fp = fopen(USERSFILE, "w");
+    fp = fopen(USERS_FILE, "w");
     if (fp == NULL)
         return;
 
@@ -28,7 +28,7 @@ void saveGoods(int numberOfGoods, struct good *goods)
 {
     FILE *fp;
 
-    fp = fopen(GOODSFILE, "w");
+    fp = fopen(GOODS_FILE, "w");
     if (fp == NULL)
         return;
 
@@ -48,7 +48,7 @@ void saveHistory(int buyerCartCount, struct buyerCart *buyerCart)
 {
     FILE *fp;
 
-    fp = fopen(BUYHISTORYFILE, "w");
+    fp = fopen(BUY_HISTORY_FILE, "w");
     if (fp == NULL)
         return;
 

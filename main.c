@@ -26,6 +26,8 @@
 #include "ChangeGoodsPrice.h"
 #include "RateGoods.c"
 #include "RateGoods.h"
+#include "SortGoods.c"
+#include "SortGoods.h"
 
 
 
@@ -48,8 +50,8 @@ int main()
     struct good *goodsHead = (struct good *)malloc(sizeof(struct good));
     goodsHead->next = NULL;
 
-    addGood(goodsHead, usersHead->next, "watch", 1000, 10, GOODACTIVE);
-    addGood(goodsHead, usersHead->next, "watch2", 1000, 10, GOODACTIVE);
+    addGood(goodsHead, usersHead->next, "watch2", 1000, 10, GOOD_ACTIVE);
+    addGood(goodsHead, usersHead->next, "watch", 1000, 10, GOOD_ACTIVE);
 
     char *command;
     struct user *loggedinUser = usersHead->next;
@@ -113,6 +115,7 @@ int main()
         {
             printf("Command Not Found!");
             free(input);
+            sortGoods(goodsHead);
         }
     }
 

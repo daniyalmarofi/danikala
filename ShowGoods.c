@@ -18,7 +18,7 @@ void doShowGoods(char *input, struct good *goodsHead)
     struct good *current = goodsHead->next;
     while (current != NULL)
     {
-        if (current->status != GOODDELETED)
+        if (current->status != GOOD_DELETED)
         {
             printf("----\n");
             printf("Seller Username:\t%s\n", current->seller->username);

@@ -4,13 +4,17 @@
 #include <string.h>
 #define TRUE 1
 #define HEADERS_IMPORTED
-#define USERSFILE "users.txt"
-#define GOODSFILE "goods.txt"
-#define BUYHISTORYFILE "history.txt"
-#define GOODACTIVE 'a'
-#define GOODDELETED 'd'
-#define BUYERNOTRATED 'n'
-#define BUYERRATED 'r'
+#define USERS_FILE "users.txt"
+#define GOODS_FILE "goods.txt"
+#define BUY_HISTORY_FILE "history.txt"
+#define GOOD_ACTIVE 'a'
+#define GOOD_DISABLE 'd'
+#define GOOD_DELETED 'd'
+#define BUYER_NOT_RATED 'n'
+#define BUYER_RATED 'r'
+
+#define MIN_DISABLE_NUMBER_OF_RATES 1
+#define MIN_ACTIVE_RATE 2
 
 // defining structs
 struct user
