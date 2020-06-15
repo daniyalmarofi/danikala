@@ -109,6 +109,9 @@ int main()
         {
             doRateGoods(input, goodsHead, loggedinUser, buyerCart);
         }
+        else if(!strcmp(command, "rate_goods") && loggedinUser != NULL){
+            doSearch(input, goodsHead);
+        }
         else
         {
             printf("Command Not Found!");
