@@ -22,6 +22,16 @@
 #include "View.h"
 #include "RemoveGoods.c"
 #include "RemoveGoods.h"
+#include "ChangeGoodsPrice.c"
+#include "ChangeGoodsPrice.h"
+
+
+
+#include "usersLinkedList.c"
+#include "usersLinkedList.h"
+// #include "goodsLinkedList.c"
+// #include "goodsLinkedList.h"
+
 
 int main()
 {
@@ -30,13 +40,17 @@ int main()
     struct user *usersHead = (struct user *)malloc(sizeof(struct user));
     usersHead->next = NULL;
 
-    
+    addUser(usersHead, "dani", "pass", 0, "seller");
+    addUser(usersHead, "dani", "pass", 1000, "buyer");
 
     struct good *goodsHead = (struct good *)malloc(sizeof(struct good));
     goodsHead->next = NULL;
 
+    addGood(goodsHead, usersHead->next, "watch", 1000, 10, GOODACTIVE);
+    addGood(goodsHead, usersHead->next, "watch2", 1000, 10, GOODACTIVE);
+
     char *command;
-    struct user *loggedinUser = NULL;
+    struct user *loggedinUser = usersHead->next;
 
     struct buyerCart *buyerCart = (struct buyerCart *)malloc(sizeof(struct buyerCart));
     buyerCart->next = NULL;
@@ -84,6 +98,10 @@ int main()
         else if (!strcmp(command, "remove_goods") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "seller"))
         {
             doRemoveGoods(input, loggedinUser, goodsHead);
+        }
+        else if (!strcmp(command, "change_goods_price") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "seller"))
+        {
+            doChangeGoodsPrice(input, loggedinUser, goodsHead);
         }
         else
         {
