@@ -20,6 +20,8 @@
 #include "Signup.h"
 #include "View.c"
 #include "View.h"
+#include "RemoveGoods.c"
+#include "RemoveGoods.h"
 
 int main()
 {
@@ -27,6 +29,9 @@ int main()
 
     struct user *usersHead = (struct user *)malloc(sizeof(struct user));
     usersHead->next = NULL;
+
+    
+
     struct good *goodsHead = (struct good *)malloc(sizeof(struct good));
     goodsHead->next = NULL;
 
@@ -76,12 +81,16 @@ int main()
         {
             doBuy(input, goodsHead, loggedinUser, buyerCart);
         }
+        else if (!strcmp(command, "remove_goods") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "seller"))
+        {
+            doRemoveGoods(input, loggedinUser, goodsHead);
+        }
         else
         {
             printf("Command Not Found!");
             free(input);
         }
     }
-    
+
     return 0;
 }

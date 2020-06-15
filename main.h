@@ -8,6 +8,7 @@
 #define GOODSFILE "goods.txt"
 #define BUYHISTORYFILE "history.txt"
 #define GOODACTIVE 'a'
+#define GOODDELETED 'd'
 
 // defining structs
 struct user

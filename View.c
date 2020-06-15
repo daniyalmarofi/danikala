@@ -47,7 +47,7 @@ void doView(char *input, struct user *loggedinUser, struct buyerCart *buyerCart,
         struct good *current = goodsHead->next;
         while (current != NULL)
         {
-            if (!strcmp(current->seller->username, loggedinUser->username))
+            if (!strcmp(current->seller->username, loggedinUser->username) && current->status != GOODDELETED)
             {
                 thisUserGoods++;
                 printf("----\n");

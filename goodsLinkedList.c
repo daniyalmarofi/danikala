@@ -18,7 +18,7 @@ void addGood(struct good *goodsHead, struct user *seller, char *goodName, int go
     newGood->goodName = goodName;
     newGood->goodPrice = goodPrice;
     newGood->goodCount = goodCount;
-    newGood->status=status;
+    newGood->status = status;
     newGood->next = NULL;
 
     // add new good at the end of the list
