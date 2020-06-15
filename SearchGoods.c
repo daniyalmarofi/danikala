@@ -173,7 +173,14 @@ void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerU
             else
                 printf("Good Rate:\t\t%.2f\n", (float)(current->sumOfRates / current->numberOfRatings));
         }
-        current = current->next;
+        // free uneeded memories
+        struct good *temp = current->next;
+        if (searchedOnce)
+        {
+            free(current->goodName);
+            free(current);
+        }
+        current = temp;
     }
 
     if (goodsCount == 0)
