@@ -3,6 +3,19 @@
 #include "commonFunctions.h"
 #endif
 
+//** This Function enables or disables theGood
+void checkActiveOrDisable(struct good *theGood)
+{
+    if (theGood->numberOfRatings >= MIN_DISABLE_NUMBER_OF_RATES)
+    {
+        float goodRate = theGood->sumOfRates / theGood->numberOfRatings;
+        if (goodRate < MIN_ACTIVE_RATE)
+            theGood->status = GOOD_DISABLE;
+        else
+            theGood->status = GOOD_ACTIVE;
+    }
+}
+
 //** this function rates the bought good for the buyer
 void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser, struct buyerCart *buyerCart)
 {
@@ -62,7 +75,7 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
     struct buyerCart *current = buyerCart->next;
     while (current != NULL)
     {
-        if (!strcmp(current->boughtGood->goodName, goodName) && !strcmp(current->boughtGood->seller->username, goodSellerUsername) && !strcmp(current->buyer->username, loggedinUser->username) && current->rated == BUYERNOTRATED)
+        if (!strcmp(current->boughtGood->goodName, goodName) && !strcmp(current->boughtGood->seller->username, goodSellerUsername) && !strcmp(current->buyer->username, loggedinUser->username) && current->rated == BUYER_NOT_RATED)
         {
             currentUserBasket = current;
             break;
@@ -78,9 +91,12 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
     }
 
     // so you can rate the good.
-    currentUserBasket->rated = BUYERRATED;
+    currentUserBasket->rated = BUYER_RATED;
     currentUserBasket->boughtGood->numberOfRatings += 1;
     currentUserBasket->boughtGood->sumOfRates += userRateValue;
+
+    // disable/activate the good if neccessary
+    checkActiveOrDisable(currentUserBasket->boughtGood);
 
     free(input);
 
