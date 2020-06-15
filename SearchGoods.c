@@ -154,6 +154,9 @@ void searchAndShowResult(struct good *goodsHead, char *nameSearch, char *sellerU
         searchedOnce = 1;
     }
 
+    // sort the list
+    sortGoods(searchingList);
+
     // Now show the List
     printf("-----------\nShowing all goods of DaniKala!\n");
     struct good *current = searchingList;
