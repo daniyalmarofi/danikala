@@ -9,6 +9,8 @@
 #define BUYHISTORYFILE "history.txt"
 #define GOODACTIVE 'a'
 #define GOODDELETED 'd'
+#define BUYERNOTRATED 'n'
+#define BUYERRATED 'r'
 
 // defining structs
 struct user
@@ -36,5 +38,6 @@ struct buyerCart
     struct good *boughtGood;
     int boughtPrice;
     int boughtCount;
+    int rated;
     struct buyerCart *next;
 };

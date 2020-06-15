@@ -103,6 +103,10 @@ int main()
         {
             doChangeGoodsPrice(input, loggedinUser, goodsHead);
         }
+        else if (!strcmp(command, "rate_goods") && loggedinUser != NULL && !strcmp(loggedinUser->userType, "buyer"))
+        {
+            doRateGoods(input, goodsHead, loggedinUser, buyerCart);
+        }
         else
         {
             printf("Command Not Found!");

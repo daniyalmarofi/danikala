@@ -74,6 +74,7 @@ void doBuy(char *input, struct good *goodsHead, struct user *loggedinUser, struc
         newbuyerCart->boughtGood = searchedGood;
         newbuyerCart->boughtCount = goodCountValue;
         newbuyerCart->boughtPrice = searchedGood->goodPrice;
+        newbuyerCart->rated = BUYERNOTRATED;
         newbuyerCart->next = NULL;
 
         last->next = newbuyerCart;
