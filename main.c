@@ -24,6 +24,8 @@
 #include "RemoveGoods.h"
 #include "ChangeGoodsPrice.c"
 #include "ChangeGoodsPrice.h"
+#include "RateGoods.c"
+#include "RateGoods.h"
 
 
 

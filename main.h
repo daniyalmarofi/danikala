@@ -29,6 +29,8 @@ struct good
     int goodPrice;
     int goodCount;
     int status;
+    int numberOfRatings;
+    int sumOfRates;
     struct good *next;
 };
 

@@ -41,8 +41,7 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
         return;
     }
 
-    // search for the goodName for not existing
-    int goodExists = 0;
+    // check if the goodName exists or not
     struct good *searchedGood = findGood(goodsHead, goodName);
     if (searchedGood == NULL)
     {
@@ -63,7 +62,7 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
     struct buyerCart *current = buyerCart->next;
     while (current != NULL)
     {
-        if (!strcmp(current->boughtGood->goodName, goodName) && !strcmp(current->boughtGood->seller->username, goodSellerUsername) && !strcmp(current->buyer->username, loggedinUser) && current->rated == BUYERNOTRATED)
+        if (!strcmp(current->boughtGood->goodName, goodName) && !strcmp(current->boughtGood->seller->username, goodSellerUsername) && !strcmp(current->buyer->username, loggedinUser->username) && current->rated == BUYERNOTRATED)
         {
             currentUserBasket = current;
             break;
@@ -78,34 +77,10 @@ void doRateGoods(char *input, struct good *goodsHead, struct user *loggedinUser,
         return;
     }
 
-    if ((searchedGood->goodPrice) * goodCountValue > loggedinUser->deposit)
-    {
-        printf("you can not afford this good.");
-        free(input);
-        return;
-    }
-
-    // find the last node
-    struct buyerCart *last = buyerCart;
-    while (last->next != NULL)
-        last = last->next;
-
-    // define the last node
-    struct buyerCart *newbuyerCart = (struct buyerCart *)malloc(sizeof(struct buyerCart));
-    checkMalloc(newbuyerCart);
-    newbuyerCart->buyer = loggedinUser;
-    newbuyerCart->boughtGood = searchedGood;
-    newbuyerCart->boughtCount = goodCountValue;
-    newbuyerCart->boughtPrice = searchedGood->goodPrice;
-    newbuyerCart->rated = BUYERNOTRATED;
-    newbuyerCart->next = NULL;
-
-    last->next = newbuyerCart;
-
-    // move money from buyer to seller
-    searchedGood->goodCount -= goodCountValue;
-    loggedinUser->deposit -= (searchedGood->goodPrice) * goodCountValue;
-    searchedGood->seller->deposit += (searchedGood->goodPrice) * goodCountValue;
+    // so you can rate the good.
+    currentUserBasket->rated = BUYERRATED;
+    currentUserBasket->boughtGood->numberOfRatings += 1;
+    currentUserBasket->boughtGood->sumOfRates += userRateValue;
 
     free(input);
 
