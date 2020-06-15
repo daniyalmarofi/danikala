@@ -2,11 +2,12 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
+#include "SortGoods.c"
+#include "SortGoods.h"
 
 //** this function shows all the goods for all users
 void doShowGoods(char *input, struct good *goodsHead)
 {
-
     if (strtok(NULL, " ") != NULL)
     {
         printf("too much input arguments!");
@@ -14,6 +15,8 @@ void doShowGoods(char *input, struct good *goodsHead)
         return;
     }
 
+    // sorting the goods Linked List
+    sortGoods(goodsHead);
     printf("Showing all goods of DaniKala!\n");
     struct good *current = goodsHead->next;
     while (current != NULL)
@@ -25,7 +28,10 @@ void doShowGoods(char *input, struct good *goodsHead)
             printf("Good Name:\t\t%s\n", current->goodName);
             printf("Good Price:\t\t%d\n", current->goodPrice);
             printf("Good Count:\t\t%d\n", current->goodCount);
-            printf("Good Rate:\t\t%.2f\n", current->numberOfRatings == 0 ? 0 : (float)(current->sumOfRates / current->numberOfRatings));
+            if (current->numberOfRatings == 0)
+                printf("Good Rate:\t\tNaN\n");
+            else
+                printf("Good Rate:\t\t%.2f\n", (float)(current->sumOfRates / current->numberOfRatings));
         }
         current = current->next;
     }

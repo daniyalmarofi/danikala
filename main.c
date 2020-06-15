@@ -26,8 +26,6 @@
 #include "ChangeGoodsPrice.h"
 #include "RateGoods.c"
 #include "RateGoods.h"
-#include "SortGoods.c"
-#include "SortGoods.h"
 
 
 
@@ -115,7 +113,6 @@ int main()
         {
             printf("Command Not Found!");
             free(input);
-            sortGoods(goodsHead);
         }
     }
 
