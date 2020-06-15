@@ -4,7 +4,7 @@
 #endif
 
 //** This Function gets the head and goods data and adds a new node at the end of the list
-void addGood(struct good *goodsHead, struct user *seller, char *goodName, int goodPrice, int goodCount)
+void addGood(struct good *goodsHead, struct user *seller, char *goodName, int goodPrice, int goodCount, int status)
 {
     // find the last node
     struct good *last = goodsHead;
@@ -14,10 +14,11 @@ void addGood(struct good *goodsHead, struct user *seller, char *goodName, int go
     // define the last node
     struct good *newGood = (struct good *)malloc(sizeof(struct good));
     checkMalloc(newGood);
-    newGood->seller=seller;
+    newGood->seller = seller;
     newGood->goodName = goodName;
     newGood->goodPrice = goodPrice;
     newGood->goodCount = goodCount;
+    newGood->status=status;
     newGood->next = NULL;
 
     // add new good at the end of the list

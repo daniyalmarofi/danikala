@@ -7,6 +7,7 @@
 #define USERSFILE "users.txt"
 #define GOODSFILE "goods.txt"
 #define BUYHISTORYFILE "history.txt"
+#define GOODACTIVE 'a'
 
 // defining structs
 struct user
@@ -24,6 +25,7 @@ struct good
     char *goodName;
     int goodPrice;
     int goodCount;
+    int status;
     struct good *next;
 };
 

@@ -72,7 +72,7 @@ void doAddGoods(char *input, struct user *loggedinUser, struct good *goodsHead)
 
         free(input);
         // add good at the end of list
-        addGood(goodsHead, loggedinUser, newGoodname, goodPriceValue, goodCountValue);
+        addGood(goodsHead, loggedinUser, newGoodname, goodPriceValue, goodCountValue, GOODACTIVE);
         printf("Good Successfully added.");
     }
     else
