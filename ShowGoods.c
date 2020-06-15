@@ -25,6 +25,7 @@ void doShowGoods(char *input, struct good *goodsHead)
             printf("Good Name:\t\t%s\n", current->goodName);
             printf("Good Price:\t\t%d\n", current->goodPrice);
             printf("Good Count:\t\t%d\n", current->goodCount);
+            printf("Good Rate:\t\t%.2f\n", current->numberOfRatings == 0 ? 0 : (float)(current->sumOfRates / current->numberOfRatings));
         }
         current = current->next;
     }
