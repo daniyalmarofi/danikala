@@ -48,17 +48,19 @@ int bubbleSort(struct good **goodsHead, int goodsCount)
 }
 
 //** this function sorts the goods Linked List using bubble sort
-void sortGoods(struct good *goodsgoodsHead)
+void sortGoods(struct good *goodsHead)
 {
+    // count the number of nodes
     int n = 0;
-    struct good *thisGood = goodsgoodsHead->next;
+    struct good *thisGood = goodsHead->next;
     while (thisGood != NULL)
     {
         n++;
         thisGood = thisGood->next;
     }
 
-    bubbleSort(&(goodsgoodsHead->next), n);
+    // sort the goods using bubble sort
+    bubbleSort(&(goodsHead->next), n);
 
     return;
 }
