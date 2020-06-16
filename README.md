@@ -18,5 +18,5 @@ ICSP 982 - CA2
 - [x] add seller check to readGoods function
 - [x] error handle if file does not exist
 - [x] debug findUser userType not checking
-- [ ] check includes in vsc
+- [x] check includes in vsc
 - [x] handle price change for previous bought goods

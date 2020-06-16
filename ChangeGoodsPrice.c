@@ -2,8 +2,6 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
-// #include "goodsLinkedList.c"
-// #include "goodsLinkedList.h"
 
 //** this function changes the price of a good in the store
 void doChangeGoodsPrice(char *input, struct user *loggedinUser, struct good *goodsHead)

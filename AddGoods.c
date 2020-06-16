@@ -2,7 +2,6 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
-#include "goodsLinkedList.c"
 #include "goodsLinkedList.h"
 
 //** this function adds a good the store

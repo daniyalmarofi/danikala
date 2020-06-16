@@ -2,7 +2,6 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
-#include "SortGoods.c"
 #include "SortGoods.h"
 
 //** this function shows all the goods for all users

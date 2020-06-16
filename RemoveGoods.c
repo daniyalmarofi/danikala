@@ -1,7 +1,6 @@
 #ifndef HEADERS_IMPORTED
 #include "main.h"
 #include "commonFunctions.h"
-#include "goodsLinkedList.c"
 #include "goodsLinkedList.h"
 #endif
 
