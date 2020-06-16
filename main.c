@@ -28,14 +28,13 @@
 #include "RateGoods.h"
 #include "SearchGoods.h"
 #include "SearchGoods.c"
-
-
+#include "FreeLinkedLists.c"
+#include "FreeLinkedLists.h"
 
 #include "usersLinkedList.c"
 #include "usersLinkedList.h"
 // #include "goodsLinkedList.c"
 // #include "goodsLinkedList.h"
-
 
 int main()
 {
@@ -111,7 +110,8 @@ int main()
         {
             doRateGoods(input, goodsHead, loggedinUser, buyerCart);
         }
-        else if(!strcmp(command, "search") && loggedinUser != NULL){
+        else if (!strcmp(command, "search") && loggedinUser != NULL)
+        {
             doSearch(input, goodsHead);
         }
         else
@@ -120,6 +120,9 @@ int main()
             free(input);
         }
     }
+
+    // free all Allocated Memmories
+    freeLinkedLists(usersHead, goodsHead, buyerCart);
 
     return 0;
 }
