@@ -31,11 +31,6 @@
 #include "FreeLinkedLists.c"
 #include "FreeLinkedLists.h"
 
-#include "usersLinkedList.c"
-#include "usersLinkedList.h"
-// #include "goodsLinkedList.c"
-// #include "goodsLinkedList.h"
-
 int main()
 {
     printf("Welcome To DaniKala!");
@@ -43,17 +38,11 @@ int main()
     struct user *usersHead = (struct user *)malloc(sizeof(struct user));
     usersHead->next = NULL;
 
-    addUser(usersHead, "dani", "pass", 0, "seller");
-    addUser(usersHead, "dani", "pass", 1000, "buyer");
-
     struct good *goodsHead = (struct good *)malloc(sizeof(struct good));
     goodsHead->next = NULL;
 
-    addGood(goodsHead, usersHead->next, "watch2", 1000, 10, GOOD_ACTIVE);
-    addGood(goodsHead, usersHead->next, "watch", 2000, 10, GOOD_ACTIVE);
-
     char *command;
-    struct user *loggedinUser = usersHead->next;
+    struct user *loggedinUser = NULL;
 
     struct buyerCart *buyerCart = (struct buyerCart *)malloc(sizeof(struct buyerCart));
     buyerCart->next = NULL;

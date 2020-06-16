@@ -2,8 +2,8 @@
 #include "main.h"
 #include "commonFunctions.h"
 #endif
-// #include "usersLinkedList.c"
-// #include "usersLinkedList.h"
+#include "usersLinkedList.c"
+#include "usersLinkedList.h"
 
 //** this function signs up a new user
 void doSignup(char *input, struct user *usersHead)

@@ -13,7 +13,7 @@ struct good *swapGoods(struct good *firstGood, struct good *secondGood)
 }
 
 //** this function sorts the goods LL using the count of LL to decrease Time Complexity
-int bubbleSort(struct good **goodsHead, int goodsCount)
+void bubbleSort(struct good **goodsHead, int goodsCount)
 {
     struct good **headPointer;
 
@@ -45,6 +45,7 @@ int bubbleSort(struct good **goodsHead, int goodsCount)
         if (swapped == 0)
             break;
     }
+    return;
 }
 
 //** this function sorts the goods Linked List using bubble sort
